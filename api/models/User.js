@@ -9,6 +9,10 @@ var User = {
     tribes: {
       collection: 'tribe',
       via:'members'
+    },
+    photos:{
+      collection:'photo',
+      via: 'owner'
     }
   }
 };
