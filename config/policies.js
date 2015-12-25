@@ -49,12 +49,17 @@ module.exports.policies = {
 		// feed : ['isNiceToAnimals', 'hasRabbitFood']
 	// }
 
-  ' * ': ['passport', 'sessionAuth'],
+  '*': ['passport', 'sessionAuth'],
+
   'auth': {
      '*': ['passport']
   },
+
   'UserController' : {
       ' * ': ['passport','bearerAuth']
+  },
+  'HomepageController': {
+      ' * ': ['passport','sessionAuth']
   }
 
 };

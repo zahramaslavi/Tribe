@@ -17,8 +17,11 @@ module.exports.models = {
   * connections (see `config/connections.js`)                                *
   *                                                                          *
   ***************************************************************************/
-  // connection: 'localDiskDb',
-  'connection': 'localMongodbServer'
+  migrate: 'drop', //TODO: remove as it will drop your db every time
+  connection: 'localDiskDb',
+
+  //TODO: For production uncomment this
+  //'connection': 'localMongodbServer'
 
 
   /***************************************************************************
