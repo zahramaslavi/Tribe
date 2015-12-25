@@ -17,7 +17,8 @@ module.exports.models = {
   * connections (see `config/connections.js`)                                *
   *                                                                          *
   ***************************************************************************/
-  migrate: 'drop', //TODO: remove as it will drop your db every time
+  //migrate: 'drop', //TODO: remove as it will drop your db every time
+  migrate:'safe',
   connection: 'localDiskDb',
 
   //TODO: For production uncomment this

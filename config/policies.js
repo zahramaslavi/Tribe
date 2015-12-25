@@ -49,17 +49,27 @@ module.exports.policies = {
 		// feed : ['isNiceToAnimals', 'hasRabbitFood']
 	// }
 
-  '*': ['passport', 'sessionAuth'],
+  '*': ['passport','sessionAuth'],
 
   'auth': {
      '*': ['passport']
   },
 
+  /*
+
+  NOTE: if you need to use an API point publicly use the
+  strategy 'bearerAuth', to test an API you can use curl, bearerAuth expects a Bearer authorization header, like this:
+
+  curl -i http://localhost:1337/user -H "Authorization: Bearer sGNhj+LuygTTS0wv9tLyvICJefbRI/t7xSLYBorL7sHvQsfCUKoHlnSGcP3JRWd"
+
+  */
+
   'UserController' : {
-      ' * ': ['passport','bearerAuth']
+      '*': ['passport','sessionAuth']
   },
+
   'HomepageController': {
-      ' * ': ['passport','sessionAuth']
+      '*': ['passport','sessionAuth']
   }
 
 };
