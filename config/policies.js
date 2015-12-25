@@ -58,7 +58,7 @@ module.exports.policies = {
   /*
 
   NOTE: if you need to use an API point publicly use the
-  strategy 'bearerAuth', to test an API you can use curl, bearerAuth expects a Bearer authorization header, like this:
+  strategy 'bearerAuth', to test an API you can use curl, bearerAuth expects a Bearer authorization header, for example this (use your Bearer token):
 
   curl -i http://localhost:1337/user -H "Authorization: Bearer sGNhj+LuygTTS0wv9tLyvICJefbRI/t7xSLYBorL7sHvQsfCUKoHlnSGcP3JRWd"
 
