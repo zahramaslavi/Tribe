@@ -19,10 +19,10 @@ module.exports.models = {
   ***************************************************************************/
   //migrate: 'drop', //TODO: remove as it will drop your db every time
   migrate:'safe',
-  connection: 'localDiskDb',
+  //connection: 'localDiskDb',
 
   //TODO: For production uncomment this
-  //'connection': 'localMongodbServer'
+  'connection': 'localMongodbServer'
 
 
   /***************************************************************************

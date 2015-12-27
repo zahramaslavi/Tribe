@@ -46,6 +46,7 @@ module.exports.routes = {
   * for configuration options and examples.                                  *
   *                                                                          *
   ***************************************************************************/
+  'get /photo/new': {view: 'photoNew'},
 
   'get /login': 'AuthController.login',
   'get /logout': 'AuthController.logout',

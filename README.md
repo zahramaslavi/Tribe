@@ -21,3 +21,21 @@ To use mongoDB, make sure to comment localDiskDb and uncomment localMongodbServe
 //connection: 'localDiskDb',
 'connection': 'localMongodbServer'
 ```
+
+## API
+
+### Create new tribe,
+
+* POST http://localhost:1337/tribe
+
+```
+{"name":"Founders", "description": "The first tribe", "members":7}
+```
+
+### Upload a photo
+
+* POST http://localhost:1337/photo/upload
+
+* parameters: description, owner and topic
+
+This is meant to be done through the app, via http://localhost:1337/photo/new
