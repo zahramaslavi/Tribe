@@ -8,9 +8,9 @@
 module.exports = {
 
   attributes: {
-    'url':'string',
-    'description':'string',
-    'votes':'integer',
+     image_url:'string',
+     description:'string',
+     votes:'integer',
      owner: {
        model:'user'
      },
