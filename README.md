@@ -1,13 +1,29 @@
 # Tribe
 
-a [Sails](http://sailsjs.org) application
+Tribe is a [Sails](http://sailsjs.org) application, visit [http://sailsjs.org](http://sailsjs.org) for more info.
 
-Tested with node v0.12.7
+The application was tested with node v0.12.7 on the last commit.
+
+To get started install sails
 
 ```
 npm install sails
+```
+
+To start the application run:
+
+```
 sails lift
 ```
+
+The application will run with a local database. To use mongoDB, make sure to comment localDiskDb and uncomment localMongodbServer at config/models.js
+
+```
+//connection: 'localDiskDb',
+'connection': 'localMongodbServer'
+```
+
+## Data models
 
 The models relationships in Tribe are:
 
@@ -15,18 +31,15 @@ The models relationships in Tribe are:
 User -*---*-> Tribe -1---*-> Topic -1---*-> Photo
 ```
 
-To use mongoDB, make sure to comment localDiskDb and uncomment localMongodbServer at config/models.js
-
-```
-//connection: 'localDiskDb',
-'connection': 'localMongodbServer'
-```
 
 ## API
+
+The API is straightfoward and you can learn more about it in [Sails Blueprint documentation](http://sailsjs.org/documentation/reference/blueprint-api#?blueprint-actions). Here documented are the ones you might be interested in knowing
 
 ### Create new tribe,
 
 * POST http://localhost:1337/tribe
+* PARAMS: name (string), description(string), members(int id of member)
 
 ```
 {"name":"Founders", "description": "The first tribe", "members":7}
@@ -36,6 +49,6 @@ To use mongoDB, make sure to comment localDiskDb and uncomment localMongodbServe
 
 * POST http://localhost:1337/photo/upload
 
-* parameters: description, owner and topic
+* PARAMS: description(string), owner(int id of owner) and topic (int id of topic)
 
 This is meant to be done through the app, via http://localhost:1337/photo/new
