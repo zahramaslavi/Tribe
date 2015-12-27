@@ -35,13 +35,8 @@ module.exports = {
 				owner: owner,
 				topic: topic
 			}).exec(function createCB(err, created){
-			  console.log('Uploaded photo ' + created.url);
+				return res.json(created);
 			});
-
-      return res.json({
-        message: files.length + ' file(s) uploaded successfully!',
-        files: files
-      });
     });
   }
 
