@@ -36,7 +36,7 @@ User -*---*-> Tribe -1---*-> Topic -1---*-> Photo
 
 The API is straightfoward and you can learn more about it in [Sails Blueprint documentation](http://sailsjs.org/documentation/reference/blueprint-api#?blueprint-actions). Here documented are the ones you might be interested in knowing
 
-### Create new tribe,
+### Create new tribe
 
 * POST http://localhost:1337/tribe
 * PARAMS: name (string), description(string), members(int id of member)
