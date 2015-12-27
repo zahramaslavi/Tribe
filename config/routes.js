@@ -51,7 +51,7 @@ module.exports.routes = {
     controller: 'PhotoController',
     action: 'upvote',
     skipAssets: true
-  }
+  },
 
   'get /login': 'AuthController.login',
   'get /logout': 'AuthController.logout',

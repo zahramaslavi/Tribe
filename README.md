@@ -70,8 +70,5 @@ This is meant to be done through the app, via '/photo/new'
 A custom url to upvote a photo is available at:
 
 * POST http://localhost:1337/photo/:id/upvote
-* PARAMS upvotes(int)
 
-```
-{"upvotes":1}
-```
+No parameters are needed and users can upvote as many as they want, for now, like cookie clicker.

@@ -10,6 +10,24 @@ module.exports = {
 		res.view('photo/new')
 	},
 
+
+	upvote: function (req, res, next) {
+	  var newVotes = 0;
+	  Photo.findOne(req.param('id'), function (err, photo) {
+	    	if (err){
+	        return next(err);
+	    	}
+	    	photo.votes++;
+	    	newVotes = photo.votes;
+	    	Photo.update(req.param('id'), {votes : newVotes}, function (err, updated) {
+	        if (err){
+	        	return res.negotiate(err);
+	        }
+	        return res.json(updated[0]); // we only updated 1, so let's return only that one
+	    	});
+		});
+	},
+
   upload: function  (req, res) {
 
 		var description = req.param('description');
