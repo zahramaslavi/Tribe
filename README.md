@@ -31,7 +31,6 @@ The models relationships in Tribe are:
 User -*---*-> Tribe -1---*-> Topic -1---*-> Photo
 ```
 
-
 ## API
 
 The API is straightfoward and you can learn more about it in [Sails Blueprint documentation](http://sailsjs.org/documentation/reference/blueprint-api#?blueprint-actions). Here documented are the ones you might be interested in knowing
@@ -45,10 +44,14 @@ The API is straightfoward and you can learn more about it in [Sails Blueprint do
 {"name":"Founders", "description": "The first tribe", "members":7}
 ```
 
+This is meant to be done through the app, via '/tribe/new' to upload an image with that tribe.
+
+You can POST to '/tribe/upload' and add the parameter 'image_url' with multi-part data to upload an image and create a new tribe.
+
 ### Upload a photo
 
 * POST http://localhost:1337/photo/upload
 
 * PARAMS: description(string), owner(int id of owner) and topic (int id of topic)
 
-This is meant to be done through the app, via http://localhost:1337/photo/new
+This is meant to be done through the app, via '/photo/new'

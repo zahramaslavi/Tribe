@@ -1,4 +1,5 @@
-<form action="/tribe" method="post">
+<form action="/tribe/upload" enctype="multipart/form-data" method="post">
+Image: <input type="file" name="photo" multiple="multiple"><br>
 Name: <input type="text" name="name"><br>
 Description: <input type="text" name="description"><br>
 <input type="hidden" name="members" value="<%= user.id %>"><br>

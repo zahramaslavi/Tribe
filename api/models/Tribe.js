@@ -10,7 +10,7 @@ module.exports = {
   attributes: {
     name: 'string',
     description: 'string',
-    //image: 'string',
+    image_url: 'string',
     members: {
       collection: 'user',
       via:'tribes'
