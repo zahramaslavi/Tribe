@@ -6,6 +6,8 @@
  */
 
 module.exports = {
-	
+	new: function(req,res){
+		if ( !req.isAuthenticated() ) return res.forbidden();
+		res.view({tribe: req.tribe},'topic/new')
+	},
 };
-

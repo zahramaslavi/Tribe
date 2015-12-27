@@ -14,6 +14,10 @@ module.exports = {
     members: {
       collection: 'user',
       via:'tribes'
+    },
+    topics: {
+      collection: 'topic',
+      via: 'tribes'
     }
   }
 };

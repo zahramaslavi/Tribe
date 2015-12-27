@@ -46,7 +46,12 @@ module.exports.routes = {
   * for configuration options and examples.                                  *
   *                                                                          *
   ***************************************************************************/
-  'get /photo/new': {view: 'photoNew'},
+
+  'get /photo/:id/upvote': {
+    controller: 'PhotoController',
+    action: 'upvote',
+    skipAssets: true
+  }
 
   'get /login': 'AuthController.login',
   'get /logout': 'AuthController.logout',

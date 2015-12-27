@@ -38,7 +38,7 @@ The API is straightfoward and you can learn more about it in [Sails Blueprint do
 ### Create new tribe
 
 * POST http://localhost:1337/tribe
-* PARAMS: name (string), description(string), members(int id of member)
+* PARAMS: name (string), description(string), members(int id of user member)
 
 ```
 {"name":"Founders", "description": "The first tribe", "members":7}
@@ -48,6 +48,15 @@ This is meant to be done through the app, via '/tribe/new' to upload an image wi
 
 You can POST to '/tribe/upload' and add the parameter 'image_url' with multi-part data to upload an image and create a new tribe.
 
+### Create new topic
+
+* POST http://localhost:1337/topic
+* PARAMS: descriotion(string), tribes )int (id of tribe, or tribes)
+
+```
+{"description":"Best moment of this year", "tribes":1}
+```
+
 ### Upload a photo
 
 * POST http://localhost:1337/photo/upload
@@ -55,3 +64,14 @@ You can POST to '/tribe/upload' and add the parameter 'image_url' with multi-par
 * PARAMS: description(string), owner(int id of owner) and topic (int id of topic)
 
 This is meant to be done through the app, via '/photo/new'
+
+## Upvote a photo
+
+A custom url to upvote a photo is available at:
+
+* POST http://localhost:1337/photo/:id/upvote
+* PARAMS upvotes(int)
+
+```
+{"upvotes":1}
+```

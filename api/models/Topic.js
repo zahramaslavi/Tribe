@@ -12,6 +12,10 @@ module.exports = {
     photos:{
       collection:'photo',
       via: 'topic'
+    },
+    tribes: {
+      collection: 'tribe',
+      via: 'topics'
     }
   }
 };
