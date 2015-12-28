@@ -38,7 +38,7 @@ module.exports = {
 		//TODO: currently uploads are stored in ''/assets/images/photos/'.
 		// This is very inefficinent, you should use something like S3 or another file storage service.
 		{
-			dirname: sails.config.appPath+'/public/photos/'
+			dirname: sails.config.appPath+'/assets/public/photos/'
 		},
 		function (err, files) {
 

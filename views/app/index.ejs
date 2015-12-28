@@ -1,0 +1,27 @@
+<!-- This file will render as the body of the layout file in this directory -->
+
+<a href="/app/tribe/new">Create a tribe</a>
+
+<div id="tribes"></div>
+
+<!-- This must be moved to a different file, left here for example -->
+<script>
+  $( document ).ready(function() {
+
+    // Get Tribes
+    $.ajax({
+      url: "/tribe"
+    }).done(function( data ) {
+
+      $.each(data, function(k,v){
+        console.log(v)
+        $("#tribes").append(
+          "<div class='tribe'><h2>"+v.name+"<h2><img src='/public/tribes/"+v.image_url+"''></img></div>"
+        );
+      });
+
+    });
+
+  });
+
+</script>

@@ -22,20 +22,10 @@
 
 module.exports.routes = {
 
-  /***************************************************************************
-  *                                                                          *
-  * Make the view located at `views/homepage.ejs` (or `views/homepage.jade`, *
-  * etc. depending on your default view engine) your home page.              *
-  *                                                                          *
-  * (Alternatively, remove this and add an `index.html` file in your         *
-  * `assets` directory)                                                      *
-  *                                                                          *
-  ***************************************************************************/
+  //Root will redirect to the APP for now, this should obviously be deprecated
+  'get /' : 'AppController.index',
 
-  //'/': {
-  //  view: 'homepage'
-  //},
-  'get /': 'HomepageController.index',
+  'get /app': 'AppController.index',
 
   /***************************************************************************
   *                                                                          *
@@ -47,11 +37,13 @@ module.exports.routes = {
   *                                                                          *
   ***************************************************************************/
 
-  'get /photo/:id/upvote': {
+  'post /photo/:id/upvote': {
     controller: 'PhotoController',
     action: 'upvote',
     skipAssets: true
   },
+
+  //Passport related routes for user creation.
 
   'get /login': 'AuthController.login',
   'get /logout': 'AuthController.logout',

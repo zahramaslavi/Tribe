@@ -68,7 +68,7 @@ module.exports.policies = {
       '*': ['passport','sessionAuth']
   },
 
-  'HomepageController': {
+  'AppController': {
       '*': ['passport','sessionAuth']
   }
 

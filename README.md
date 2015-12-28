@@ -35,6 +35,14 @@ User -*---*-> Tribe -1---*-> Topic -1---*-> Photo
 
 The API is straightfoward and you can learn more about it in [Sails Blueprint documentation](http://sailsjs.org/documentation/reference/blueprint-api#?blueprint-actions). Here documented are the ones you might be interested in knowing
 
+Currently the API is locked down so that only session authorized users can access it. If you need to use an API point publicly replace the 'sessionAuth' strategy with the strategy 'bearerAuth' in 'config/policies.js'. Read more there.
+
+To test your public (using bearerAuth) API you can use curl, bearerAuth expects a Bearer authorization header, for example this (use your Bearer token):
+
+```
+curl -i http://localhost:1337/user -H "Authorization: Bearer sGNhj+LuygTTS0wv9tLyvICJefbRI/t7xSLYBorL7sHvQsfCUKoHlnSGcP3JRWd"
+```
+
 ### User
 
 At the moment users need to be created through the signup process at http://localhost:1337/register
@@ -58,7 +66,7 @@ Tribes are collections of topics. Tribes have members, which can be associated w
 #### Create a tribe
 
 * URL: http://localhost:1337/tribe
-* METHOD: POST 
+* METHOD: POST
 * PARAMS: name (string), description (string), members(int id of user member)
 
 Example JSON payload:
@@ -191,3 +199,17 @@ A custom controller method exists to do this.
 * PARAMS: none
 
 No parameters are needed and users can upvote as many as they want, for now, like cookie clicker.
+
+## FRONT-END
+
+A very basic front end app has been created. For ease I used an MVC approach. Because in Sails it's easy to access the data. If you're extending this I'll recommend you use this MVC approach. For a future iteration, specially if you're going the azync way using jquery or native, you should use the API specified above.
+
+All you need to know is that:
+
+* The controller lives in: api/controllers/AppController.js
+* The views live in views/app
+
+You only need to look at the files in the views directory. I tried to make it easier for you to understand what's going on. So I put the style and javascript dependencies in the files directly. This is BAD!!! as they will not be minimized and served correctly. However, this is easier to get started with:
+
+* The layout file imports JQuery and has the minimal style applied. This is only as example
+* Each view file has the corresponding JQuery code, please move it out.

@@ -17,12 +17,11 @@ module.exports = {
 		var description = req.param('description');
 		var members = req.param('members');
 
-
     req.file('photo').upload(
 		//TODO: currently uploads are stored in ''/assets/images/photos/'.
 		// This is very inefficinent, you should use something like S3 or another file storage service.
 		{
-			dirname: sails.config.appPath+'/public/tribes/'
+			dirname: sails.config.appPath+'/assets/public/tribes/'
 		},
 		function (err, files) {
 

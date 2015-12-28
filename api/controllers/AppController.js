@@ -7,8 +7,6 @@
 
 module.exports = {
 	index: function (req, res) {
-    return res.json({
-      todo: 'Not implemented yet!!!'
-    });
+		res.view('app/index', {layout:'app/layout'});
   }
 };
