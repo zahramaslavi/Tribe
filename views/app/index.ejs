@@ -1,8 +1,19 @@
-<!-- This file will render as the body of the layout file in this directory -->
+<!-- Remember that this file will render as the body of the layout file in this directory -->
 
-<a href="/app/tribe/new">Create a tribe</a>
-
+<h1>Available Tribes</h1>
 <div id="tribes"></div>
+
+
+<!-- This should go in a hidden modal-->
+<h1>Create A New Tribe</h1>
+<form id="tribe-form" action="/tribe/upload" enctype="multipart/form-data" method="post">
+Name: <input type="text" name="name"><br>
+Description: <input type="text" name="description"><br>
+<input type="hidden" name="members" value="<%= user.id %>"><br>
+Image: <input type="file" name="photo" multiple="multiple"><br>
+<input type="submit" value="New">
+</form>
+
 
 <!-- This must be moved to a different file, left here for example -->
 <script>
@@ -16,12 +27,29 @@
       $.each(data, function(k,v){
         console.log(v)
         $("#tribes").append(
-          "<div class='tribe'><h2>"+v.name+"<h2><img src='/public/tribes/"+v.image_url+"''></img></div>"
+          "<div class='tribe'><h2>"+v.name+"</h2><img src='/public/tribes/"+v.image_url+"'></img><p>"+v.description+"</p></div>"
         );
       });
 
     });
 
   });
+
+  $( '#tribe-form' )
+  .submit( function( e ) {
+    $.ajax( {
+      url: '/tribe/upload',
+      type: 'POST',
+      data: new FormData( this ),
+      processData: false,
+      contentType: false
+    }).done(function(data){
+      $("#tribes").prepend(
+        "<div class='tribe'><h2>"+data.name+"</h2><img src='/public/tribes/"+data.image_url+"'></img><p>"+data.description+"</p></div>"
+      );
+      //TODO: because the assets pipeline needs to re-build the .tmp/public folder the file doesn't seem to be available right after uploading, thus, a 404 is thrown. This is fixed when using a proper image hosting service like Amazon S3, you should really look in to it.
+    });
+    e.preventDefault();
+  })
 
 </script>

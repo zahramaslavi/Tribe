@@ -7,6 +7,6 @@
 
 module.exports = {
 	index: function (req, res) {
-		res.view('app/index', {layout:'app/layout'});
+		res.view('app/index', {layout:'app/layout', user: req.user});
   }
 };

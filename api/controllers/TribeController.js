@@ -36,7 +36,6 @@ module.exports = {
 				members: members
 			}).exec(function createCB(err, created){
 				return res.json(created);
-				//res.view('homepage') //TODO: redirect to Tribe view instead of response
 			});
     });
   }

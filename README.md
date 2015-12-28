@@ -202,9 +202,7 @@ No parameters are needed and users can upvote as many as they want, for now, lik
 
 ## FRONT-END
 
-A very basic front end app has been created. For ease I used an MVC approach. Because in Sails it's easy to access the data. If you're extending this I'll recommend you use this MVC approach. For a future iteration, specially if you're going the azync way using jquery or native, you should use the API specified above.
-
-All you need to know is that:
+A very basic front end app has been created. I'm using mainly JQuery and accessing the API, so you can see how it's done. All you need to know is that:
 
 * The controller lives in: api/controllers/AppController.js
 * The views live in views/app
