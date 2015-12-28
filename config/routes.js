@@ -25,8 +25,13 @@ module.exports.routes = {
   //Root will redirect to the APP for now, this should obviously be deprecated
   'get /' : 'AppController.index',
 
-  'get /app': 'AppController.index',
 
+  //Temporary routes for an example webapp
+  'get /app': 'AppController.index',
+  'get /app/tribe/:id': {
+    controller: 'AppController',
+    action: 'tribe'
+  },
   /***************************************************************************
   *                                                                          *
   * Custom routes here...                                                    *

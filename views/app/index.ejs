@@ -25,9 +25,8 @@ Image: <input type="file" name="photo" multiple="multiple"><br>
     }).done(function( data ) {
 
       $.each(data, function(k,v){
-        console.log(v)
         $("#tribes").append(
-          "<div class='tribe'><h2>"+v.name+"</h2><img src='/public/tribes/"+v.image_url+"'></img><p>"+v.description+"</p></div>"
+          "<div class='tribe'><h3>"+v.name+"</h3><a href='/app/tribe/"+v.id+"'><img src='/public/tribes/"+v.image_url+"'></img></a><p>"+v.description+"</p></div>"
         );
       });
 
@@ -45,7 +44,7 @@ Image: <input type="file" name="photo" multiple="multiple"><br>
       contentType: false
     }).done(function(data){
       $("#tribes").prepend(
-        "<div class='tribe'><h2>"+data.name+"</h2><img src='/public/tribes/"+data.image_url+"'></img><p>"+data.description+"</p></div>"
+        "<div class='tribe'><h3>"+data.name+"</h3><a href='/app/tribe/"+data.id+"'><img src='/public/tribes/"+data.image_url+"'></img></a><p>"+data.description+"</p></div>"
       );
       //TODO: because the assets pipeline needs to re-build the .tmp/public folder the file doesn't seem to be available right after uploading, thus, a 404 is thrown. This is fixed when using a proper image hosting service like Amazon S3, you should really look in to it.
     });
