@@ -47,7 +47,7 @@ module.exports = {
 
 			var url = files[0].fd.substring(files[0].fd.lastIndexOf('/')+1,files[0].fd.length);
 			Photo.create({
-				url:url,
+				image_url:url,
 				description: description,
 				votes: 0,
 				owner: owner,

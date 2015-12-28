@@ -211,3 +211,17 @@ You only need to look at the files in the views directory. I tried to make it ea
 
 * The layout file imports JQuery and has the minimal style applied. This is only as example
 * Each view file has the corresponding JQuery code, please move it out.
+
+Start the aplication with:
+
+```
+sails lift
+```
+
+and visit
+
+http://localhost:1337/app
+
+## NOTES
+
+You will notice that when you upload a file the front end will not find it. This is because the .tmp/public folder is re-built on a schedule, even when you upload a file it will not automatically be available. There's two ways to go at it: 1) use a proper Amazon S3 storage, update the urls on the front end and you're done. 2) you can hack (I really don't like this option) it so that it directly saves it to .tmp/public, however you need to configure grunt not to delete your files upon reload. For more info [see this stackoverflow question](http://stackoverflow.com/questions/32333698/i-can-not-see-the-image-i-just-uploaded-sails-js)

@@ -32,6 +32,11 @@ module.exports.routes = {
     controller: 'AppController',
     action: 'tribe'
   },
+  'get /app/topic/:id': {
+    action: 'topic',
+    controller: 'AppController'
+  },
+
   /***************************************************************************
   *                                                                          *
   * Custom routes here...                                                    *
