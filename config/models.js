@@ -17,13 +17,14 @@ module.exports.models = {
   * connections (see `config/connections.js`)                                *
   *                                                                          *
   ***************************************************************************/
-  //migrate: 'drop', //TODO: remove as it will drop your db every time
-  migrate:'safe',
-  //connection: 'localDiskDb',
 
-  //TODO: For production uncomment this
-  'connection': 'localMongodbServer'
+  // Development setup, store to local and delete models when sails restarts
+  connection: 'localDiskDb',
+  migrate: 'drop', //TODO: remove as it will drop your db every time
 
+  //TODO: For production, install mongodb and uncomment this
+  //'connection': 'localMongodbServer'
+  //migrate:'safe', //this will keep your db every time
 
   /***************************************************************************
   *                                                                          *
