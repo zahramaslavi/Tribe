@@ -1,0 +1,68 @@
+<!-- Remember that this file will render as the body of the layout file in this directory -->
+<h1 id="topic-description"></h1>
+
+<div id="photos"></div>
+
+
+<!-- This should go in a hidden modal-->
+<h1>Add A New Photo</h1>
+<form id="photo-form" action="/photo/upload" enctype="multipart/form-data" method="post">
+Description: <input type="text" name="description"><br>
+<input type="hidden" name="owner" value="<%= user.id %>"><br>
+<input type="hidden" name="topic" value="<%= topicId %>"><br>
+<input type="file" name="photo" multiple="multiple"><br>
+<input type="submit" value="Upload">
+</form>
+
+
+<!-- This must be moved to a different file, left here for example -->
+<script>
+  $( document ).ready(function() {
+
+    function upvotePhoto(e) {
+      console.log(e)
+      console.log("upvoting" + e);
+    }
+
+    //Bind upvotes
+    $('#photos').on('click', '.photo', function() {
+      var photoId = $(this).attr('id');
+      $.ajax({
+        url: "/photo/"+photoId+"/upvote",
+        type: "POST"
+      }).done(function(data){
+        $('div#'+photoId).find('p.votes').text("Votes: "+data.votes+" - click image to upvote")
+      })
+    });
+
+    // Get Topic
+    $.ajax({
+      url: "/topic/<%= topicId %>",
+      type: "GET"
+    }).done(function( data ) {
+      $("#topic-description").text(data.description);
+      $.each(data.photos, function(k,v){
+        var photo = "<div class='photo' id='"+v.id+"'><img src='/public/photos/"+v.image_url+"'></img><p>"+v.description+"</p><p class='votes'>Votes: "+v.votes+" - click image to upvote</p></div>";
+        $("#photos").append(photo);
+      });
+    });
+  });
+
+  $( '#photo-form' )
+  .submit( function( e ) {
+    $.ajax( {
+      url: '/photo/upload',
+      type: 'POST',
+      data: new FormData( this ),
+      processData: false,
+      contentType: false
+    }).done(function(data){
+      $("#photos").prepend(
+        "<div class='photo' id='"+data.id+"'><img src='/public/photos/"+data.image_url+"'></img><p>"+data.description+"</p><p class='votes'>Votes: "+data.votes+" - click image to upvote</p></div>"
+        //TODO: because the assets pipeline needs to re-build the .tmp/public folder the file doesn't seem to be available right after uploading, thus, a 404 is thrown. This is fixed when using a proper image hosting service like Amazon S3, you should really look in to it.
+      );
+    });
+    e.preventDefault();
+  })
+
+</script>

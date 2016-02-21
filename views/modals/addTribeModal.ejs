@@ -1,0 +1,87 @@
+
+
+<!--
+<h1>Create A New Tribe</h1>
+<form id="tribe-form" action="/tribe/upload" enctype="multipart/form-data" method="post">
+    Name: <input type="text" name="name"><br>
+    Description: <input type="text" name="description"><br>
+    <input type="hidden" name="members" value="<%= user.id %>"><br>
+    Image: <input type="file" name="photo" multiple="multiple"><br>
+    <input type="submit" value="New">
+</form>-->
+
+
+
+
+<md-dialog flex-sm="30" flex-gt-sm="40" flex-gt-md="30" flex-gt-lg="30" aria-label="Creat a new Tribe"  ng-controller="indexCtrl" ng-cloak>
+    <form name="createTribeForm" id="tribe-form" action="/tribe/upload" enctype="multipart/form-data" method="post">
+        <md-toolbar class="md-primary md-hue-1 md-raised" md-ink-ripple="#FF0000">
+            <div class="md-toolbar-tools">
+                <h2>Create a new tribe</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <ng-md-icon icon="close" style="fill: white" size="24px"
+                    ></ng-md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <div class="md-dialog-content">
+
+                <div flex layout="row" layout-align="center center">
+                    <div flex="10"></div>
+                    <md-input-container flex="80"  class="md-block">
+                        <label>Name</label>
+                        <input type="text" name="name" ng-model="name" required>
+                        <div class="error">
+                            <p ng-show="createTribeForm.name.$dirty && createTribeForm.name.$error.required">Name is required.</p>
+                        </div>
+                    </md-input-container>
+                    <div flex="10"></div>
+                </div>
+
+
+                <div flex layout="row" layout-align="center center" style="min-height: 20px">
+                    <div flex="10"></div>
+                    <md-input-container flex="80"  class="md-block">
+                        <label>Description</label>
+                        <input type="text" name="description" ng-model="description" required>
+                        <div class="error">
+                            <p ng-show="createTribeForm.description.$dirty && createTribeForm.description.$error.required">Description is required.</p>
+                        </div>
+                    </md-input-container>
+                    <div flex="10"></div>
+                </div>
+
+
+                <input type="hidden" name="members" value="<%= user.id %>" ng-model="userId"><br>
+
+                <div flex layout="row" layout-align="center center">
+                    <div flex="10"></div>
+                    <div flex="80"  class="md-block">
+                        Image <%= user.id %>: <input type="file" name="photo" multiple="multiple" ng-model="photo">
+                    </div>
+                    <div flex="10"></div>
+                </div>
+
+                <!-- <input type="submit" value="New">-->
+
+                <br>
+
+                <div flex="10"></div>
+                <div flex="80"  layout="row" layout-align="center center">
+                    <md-button flex layout="row" class="md-primary md-hue-1 md-raised"
+                               aria-label="More" md-ink-ripple="#FF0000" ng-click="createNewTribe()">
+                        <ng-md-icon icon="group_add" style="fill: white" size="38px"
+                        ></ng-md-icon>
+                    </md-button>
+                </div>
+                <div flex="10"></div>
+
+            </div>
+        </md-dialog-content>
+
+    </form>
+
+
+</md-dialog>

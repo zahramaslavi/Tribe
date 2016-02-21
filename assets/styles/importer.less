@@ -1,0 +1,98 @@
+/**
+ * importer.less
+ *
+ * By default, new Sails projects are configured to compile this file
+ * from LESS to CSS.  Unlike CSS files, LESS files are not compiled and
+ * included automatically unless they are imported below.
+ *
+ * The LESS files imported below are compiled and included in the order
+ * they are listed.  Mixins, variables, etc. should be imported first
+ * so that they can be accessed by subsequent LESS stylesheets.
+ *
+ * (Just like the rest of the asset pipeline bundled in Sails, you can
+ * always omit, customize, or replace this behavior with SASS, SCSS,
+ * or any other Grunt tasks you like.)
+ */
+
+
+
+// For example:
+//
+// @import 'variables/colors.less';
+// @import 'mixins/foo.less';
+// @import 'mixins/bar.less';
+// @import 'mixins/baz.less';
+//
+// @import 'styleguide.less';
+// @import 'pages/login.less';
+// @import 'pages/signup.less';
+//
+// etc.
+.formContainer
+{
+  background: #99ffcc;
+
+}
+
+.backgroundImage
+{
+  background-image: url("assets/images/tribe1.jpg");
+}
+
+.formFont
+{
+  font-family: 'Lato', serif;
+  font-size: 18px;
+}
+.footerFont
+{
+  font-family: 'Lato', serif;
+  font-size: 48px;
+  color: #9966ff;
+}
+
+.headerFont
+{
+  font-family: 'Lato', serif;
+  font-size: 48px;
+}
+
+
+.error
+{
+  color:red;
+  font-family: 'Lato', serif;
+  font-size: 12px;
+}
+
+//make md-button stick to buttom-right corner
+.md-button.md-fab.md-fab-bottom-right {
+  top: auto;
+  right: 20px;
+  bottom: 20px;
+  left: auto;
+  position: fixed;
+}
+
+
+
+//Image control size
+.dimage {
+  max-width: 300px;
+  min-width: 20px;
+  max-height: 300px;
+  min-height: 20px;
+}
+
+
+//Modal css
+.dialogdemoBasicUsage #popupContainer {
+  position: relative; }
+.dialogdemoBasicUsage .footer {
+  width: 100%;
+  text-align: center;
+  margin-left: 20px; }
+.dialogdemoBasicUsage .footer, .dialogdemoBasicUsage .footer > code {
+  font-size: 0.8em;
+  margin-top: 50px; }
+
