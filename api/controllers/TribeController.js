@@ -30,7 +30,7 @@ module.exports = {
 		var description = req.param('description');
 		var members = req.param('members');
 
-
+    console.log(req)
 
 		req.file('photo').upload(
 
@@ -38,28 +38,27 @@ module.exports = {
 			// This is very inefficinent, you should use something like S3 or another file storage service.
 			{
 				dirname: sails.config.appPath+'/assets/public/tribes/'
-
-
-
 			},
 			function (err, files) {
 
 				if (err)
 					return res.serverError(err);
 
+				if (files.length > 0) {
+					console.log (files)
+					var url = files[0].fd.substring(files[0].fd.lastIndexOf('/')+1,files[0].fd.length);
+					Tribe.create({
+						image_url:url,
+						description: description,
+						name: name,
+						members: members
+					}).exec(function createCB(err, created){
+						return res.json(created);
+					});
+				} else {
+					return res.json({})
+				}
 
-				var url = files[0].fd.substring(files[0].fd.lastIndexOf('/')+1,files[0].fd.length);
-				Tribe.create({
-					image_url:url,
-					description: description,
-					name: name,
-					members: members
-				}).exec(function createCB(err, created){
-					return res.json(created);
-				});
 			});
 	}
-
-
-
 };
