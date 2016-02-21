@@ -30,8 +30,6 @@ module.exports = {
 		var description = req.param('description');
 		var members = req.param('members');
 
-    console.log(req)
-
 		req.file('photo').upload(
 
 			//TODO: currently uploads are stored in ''/assets/images/photos/'.
@@ -45,7 +43,6 @@ module.exports = {
 					return res.serverError(err);
 
 				if (files.length > 0) {
-					console.log (files)
 					var url = files[0].fd.substring(files[0].fd.lastIndexOf('/')+1,files[0].fd.length);
 					Tribe.create({
 						image_url:url,
