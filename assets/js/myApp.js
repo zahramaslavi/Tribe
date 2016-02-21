@@ -80,13 +80,13 @@ app.factory('crudTribe', function($http) {
             var promise = $http({
                 method: 'Post',
                 url: myUrl,
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                transformRequest: function(obj) {
+                headers: {'Content-Type': 'application/json'},
+                /*transformRequest: function(obj) {
                     var str = [];
                     for(var p in obj)
-                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                        str.push(p + "=" + obj[p]);
                     return str.join("&");
-                },
+                },*/
                 'data': dataObjTribe
             }).then(function(response){
                 return response.data;
