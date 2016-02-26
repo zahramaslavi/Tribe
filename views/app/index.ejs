@@ -8,47 +8,60 @@
   <%- partial ('../partials/navbar.ejs') %>
 
 
-  <md-content layout="row" flex>
+  <md-content layout="row" flex class="backgroundColorGray">
 
 
 
     <!--Tribes cards-->
     <div flex layout="column" layout-align="center center">
-      <div class="footerFont">
+      <div class="divFont" >
         <h1>Available tribes</h1><br/>
+        <h1>Available tribes</h1><br/>
+        <h1>Available tribes</h1><br/>
+        <h1>Available tribes</h1><br/>
+
       </div>
+
       <div flex="50"  ng-repeat="tribe in tribes">
-
-        <md-card flex>
-          <img ng-src="/public/tribes/{{tribe.image_url}}" class="dimage md-card-image" alt="Washed Out">
-          <md-card-title>
-            <md-card-title-text>
-              <span class="md-headline">{{tribe.name}}</span>
-            </md-card-title-text>
-          </md-card-title>
-          <md-card-content>
-            <p>
-              {{tribe.description}}
-            </p>
-          </md-card-content>
-        </md-card>
+      <md-card>
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">{{tribe.name}}</span>
+            <span class="md-subhead">{{tribe.description}}</span>
+          </md-card-title-text>
+        </md-card-title>
+        <md-card-content layout="row" layout-align="space-between">
+          <div class="md-media-xl card-media">
+            <img ng-src="/public/tribes/{{tribe.image_url}}" class="dimage md-card-image" alt="Washed Out">
+          </div>
+          <md-card-actions layout="column">
+            <md-button class="md-icon-button" aria-label="Share">
+              <ng-md-icon icon="person_add" style="fill: gray" size="24px"
+              ></ng-md-icon>
+            </md-button>
+            <md-button class="md-icon-button" aria-label="Favorite" ng-click="updateTribeModal($event, tribe.name, tribe.description, tribe.id, tribe.image_url)">
+              <ng-md-icon icon="edit" style="fill: gray" size="24px"
+              ></ng-md-icon>
+            </md-button>
+            <md-button class="md-icon-button" aria-label="Share" ng-click="deleteThisTribe(tribe.id)">
+              <ng-md-icon icon="delete" style="fill: gray" size="24px"
+              ></ng-md-icon>
+            </md-button>
+          </md-card-actions>
+        </md-card-content>
+      </md-card>
       </div>
-
-
 
     </div>
 
 
     <!--Create tribe button-->
     <md-button class="md-primary md-hue-1 md-raised md-icon-button md-fab md-fab-bottom-right"
-               aria-label="More" ng-click="showAdvanced($event)" md-ink-ripple="#FF0000">
+               aria-label="More" ng-click="createTribeModal($event)" md-ink-ripple="#FF0000">
       <ng-md-icon icon="group_add" style="fill: white" size="38px"
       ></ng-md-icon>
     </md-button>
 
-
-
-  </md-content>
 
   <!--<h1>Available Tribes</h1>
   <div id="tribes"></div>-->
@@ -65,8 +78,8 @@
 
 
 <!-- This should go in a hidden modal-->
-<!--
-<h1>Create A New Tribe</h1>
+
+<!--<h1>Create A New Tribe</h1>
 
 <form id="tribe-form" action="/tribe/upload" enctype="multipart/form-data" method="post">
 Name: <input type="text" name="name"><br>
@@ -75,8 +88,7 @@ Description: <input type="text" name="description"><br>
 Image: <input type="file" name="photo" multiple="multiple"><br>
 <input type="submit" value="New">
 
-</form>
--->
+</form>-->
 
 
 
@@ -85,7 +97,8 @@ Image: <input type="file" name="photo" multiple="multiple"><br>
 
 
 <!-- This must be moved to a different file, left here for example -->
-<!--<script>
+<!--
+<script>
 
   $( document ).ready(function() {
 
@@ -124,7 +137,8 @@ Image: <input type="file" name="photo" multiple="multiple"><br>
   })
 
 
-</script>  -->
+</script>
+-->
 
 
 
