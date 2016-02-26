@@ -4,20 +4,74 @@ var app = angular.module('myApp', ['ngMaterial', 'ngMdIcons', 'ngCookies']);
 //Shared variables and cookies
 app.factory('sharedProperties', function($cookies) {
     var userId;
+    var tribes;
     return {
         getUserId: function() {
-            userId = $cookies.userId
+            userId = $cookies.userId;
             return userId;
         },
         setUserId: function(value) {
             $cookies.userId = value;
         },
+        getTribes: function() {
+            tribes = $cookies.tribes;
+            return tribes;
+        },
+        setTribes: function(value) {
+            $cookies.tribes = value;
+
+        },
     };
 });
 
 
-//Service for loading the tribes
-app.factory('loadTribes', function($http) { //, $q, $rootScope, , $timeout
+
+
+//A service for creating modal
+app.factory('myModals', function($mdDialog) {
+
+    return {
+        modal: function(ev, modalUrl) {
+            //$scope.status = '  ';
+            //$scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
+            $mdDialog.show({
+                    templateUrl: modalUrl,
+                    parent: angular.element(document.body),
+                    targetEvent: ev,
+                    clickOutsideToClose:true
+                });
+        },
+    };
+});
+
+//End of modal service
+
+
+//Service for creating a new tribe
+
+/* Create tribe
+    URL: http://localhost:1337/tribe
+    METHOD: POST
+    PARAMS: name (string), description (string), members(int id of user member)
+*/
+
+
+/*Update tribe
+    URL: http://localhost:1337/tribe/:id
+    METHOD: PUT
+ PARAMS: name (string), description (string), members(int id of user member), topics (int id of topics), image_url (string)*/
+
+/*Delete tribe
+*
+ URL: http://localhost:1337/tribe/:id
+ METHOD: DELETE
+ PARAMS: none
+
+ *
+* */
+
+
+app.factory('tribes', function($http) {
 
     return {
         requestTribes: function()
@@ -45,51 +99,23 @@ app.factory('loadTribes', function($http) { //, $q, $rootScope, , $timeout
             });
             return promise;
         },
-    };
-});
-
-//Service for creating a new tribe
-
-/* Create
-    URL: http://localhost:1337/tribe
-    METHOD: POST
-    PARAMS: name (string), description (string), members(int id of user member)
-*/
-
-
-/*Update
-    URL: http://localhost:1337/tribe/:id
-    METHOD: PUT
- PARAMS: name (string), description (string), members(int id of user member), topics (int id of topics), image_url (string)*/
-
-
-app.factory('crudTribe', function($http) {
-
-    return {
-        createTribe: function(tribeName, tribeDescription, userId, tribePhoto)
-        {
-            var dataObjTribe = {
-                name : tribeName,
-                description : tribeDescription,
-                members : userId,
-                photo:tribePhoto
-            };
-
+        createTribe: function(tribeName, tribeDescription, userId, tribePhoto){
             var myUrl = '/tribe/upload';
+            var fd = new FormData();
+            fd.append('name', tribeName);
+            fd.append('description', tribeDescription);
+            fd.append('members', userId);
+            fd.append('photo', tribePhoto);
+            var promise = $http.post(myUrl, fd, {
+                    transformRequest: angular.identity,
+                    headers: {'Content-Type': undefined}
+                });
+            promise.success(function(data) {
+                return JSON.stringify({data: data});
+            });
 
-            var promise = $http({
-                method: 'Post',
-                url: myUrl,
-                headers: {'Content-Type': 'application/json'},
-                /*transformRequest: function(obj) {
-                    var str = [];
-                    for(var p in obj)
-                        str.push(p + "=" + obj[p]);
-                    return str.join("&");
-                },*/
-                'data': dataObjTribe
-            }).then(function(response){
-                return response.data;
+            promise.error(function(data) {
+                return "failure message: " + JSON.stringify({data: data});
             });
             return promise;
         },
@@ -119,99 +145,141 @@ app.factory('crudTribe', function($http) {
             });
             return promise;
         },*/
-    };
-});
-
-
-
-app.controller('indexCtrl', function($scope, $mdDialog, $mdMedia, loadTribes, crudTribe, sharedProperties) {
-
-    $scope.tribesRequestAndSession = function(id){
-        loadTribes.requestTribes().then(function(results){
-            $scope.tribes = results.data;
-            console.log(results.data);
-
-            //Set session data
-           /* $scope.userIdSession = id;
-            console.log('userIdNav:',id);
-            console.log('userIdNavScope:',$scope.userIdSession);*/
-
-            sharedProperties.setUserId(id);
-        });
-    }
-
-
-
-
-
-    //Create Tribe
-
-
-    $scope.createNewTribe = function(){
-
-        var tribeName = $scope.name;
-        var tribeDescription = $scope.description;
-
-        var tribePhoto = $scope.uploadme;
-        var userId = sharedProperties.getUserId();
-
-        console.log('tribe name: ', tribeName);
-        console.log('tribeDescription:', tribeDescription);
-        console.log('userId:', userId);
-        console.log('tribePhoto:', tribePhoto);
-
-
-        crudTribe.createTribe(tribeName, tribeDescription, userId, tribePhoto).then(function(results){
-            $scope.createdtribe = results.data;
-            console.log(results);
-        });
-
-    }
-
-
-    //modal
-
-    $scope.status = '  ';
-    $scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
-
-    $scope.sayHi = function(){console.log('hi');}
-
-    $scope.showAdvanced = function(ev) {
-        var useFullScreen = ($mdMedia('sm') || $mdMedia('xs'))  && $scope.customFullscreen;
-        $mdDialog.show({
-                controller: DialogController,
-                templateUrl: '/modals/createTribe.ejs',
-               // templateUrl: '/modals/addTribeModal.ejs',
-                parent: angular.element(document.body),
-                targetEvent: ev,
-                clickOutsideToClose:true,
-                fullscreen: useFullScreen
-            })
-            .then(function(answer) {
-                $scope.status = 'You said the information was "' + answer + '".';
-            }, function() {
-                $scope.status = 'You cancelled the dialog.';
+        deleteTribe: function(tribeId)
+        {
+            var myUrl = '/tribe/' + tribeId;
+            var promise = $http({
+                method: 'DELETE',
+                url: myUrl,
+                dataType:'json',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                transformRequest: function(obj) {
+                    var str = [];
+                    for(var p in obj)
+                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+                    return str.join("&");
+                }
             });
-        $scope.$watch(function() {
-            return $mdMedia('xs') || $mdMedia('sm');
-        }, function(wantsFullScreen) {
-            $scope.customFullscreen = (wantsFullScreen === true);
-        });
+
+            promise.success(function(data) {
+                return JSON.stringify({data: data});
+            });
+
+            promise.error(function(data) {
+                return "failure message: " + JSON.stringify({data: data});
+            });
+            return promise;
+        },
     };
+});
+
+
+
+app.controller('indexCtrl', function($scope, $timeout, $interval, $mdDialog, $mdToast, tribes, sharedProperties, myModals) {
+
+
+    $interval( function(){
+        $scope.tribes = sharedProperties.getTribes();
+    }, 2000);
+
+
+    //Load all tribes when the page loads
+        $scope.tribesRequestAndSession = function(id){
+            tribes.requestTribes().then(function(results){
+                $scope.tribes = results.data;
+                sharedProperties.setUserId(id);
+                sharedProperties.setTribes(results.data);
+            });
+        }
+
+
+    ////////////////////Create Tribe
+
+        //Get modal to create tribe
+        $scope.showAdvanced = function(ev) {
+            var url = '/modals/createTribe.ejs'
+            myModals.modal(ev, url);
+        };
+
+        $scope.cancel = function() {
+            $mdDialog.cancel();
+        };
+
+        //Action to create a new tribe
+        $scope.createNewTribe = function(){
+
+            var tribeName = $scope.name;
+            var tribeDescription = $scope.description;
+            var userId = sharedProperties.getUserId();
+            var file = $scope.myFile;
+            tribes.createTribe(tribeName, tribeDescription, userId, file).then(function(results){
+                $scope.createdtribe = results.data;
+                console.log(results);
+
+                $mdDialog.cancel();
+                showSimpleToast("Tribe created");
+
+
+
+            });
+
+            $timeout(function(){tribesReload();}, 1000);
+
+        }
+
+
+
+    ////////////////////End of create tribe
+
+    ////////////////////Delete tribe
+    $scope.deleteThisTribe=function(tribeId){
+        tribes.deleteTribe(tribeId).then(function(results){
+            $scope.deletedtribe = results.data;
+            console.log(results);
+
+            showSimpleToast("Tribe deleted");
+
+            tribesReload();
+        });
+    }
+    ///////////////////End of delete tribe
+
+
+
+    //////////toast
+    $scope.toastPosition= {
+        top: false,
+        top: 200,
+        left: 200
+        //right: true
+    };
+
+    function showSimpleToast(message) {
+        $mdToast.show(
+            $mdToast.simple()
+                .textContent(message)
+                .position($scope.toastPosition)
+                .hideDelay(3000)
+        );
+    };
+
+
+    ////////////Tribes reload
+    function tribesReload(){
+        $timeout(function(){
+            tribes.requestTribes().then(function(results){
+                $scope.tribes = results.data;
+                sharedProperties.setTribes(results.data);
+                console.log($scope.tribes);
+            });
+
+        }, 1000);
+    }
+
 
 });
 
-function DialogController($scope, $mdDialog) {
-    $scope.hide = function() {
-        $mdDialog.hide();
-    };
-    $scope.cancel = function() {
-        $mdDialog.cancel();
-    };
-    $scope.answer = function(answer) {
-        $mdDialog.hide(answer);
-    };
-}
+
 
 
 //Background image directive for login and register page
@@ -230,7 +298,27 @@ app.directive('backgroundImageDirective', function () {
     };
 })
 
+
+
+
 //A directive for reading files (images) instead of input type="file"
+app.directive('fileModel', ['$parse', function ($parse) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            var model = $parse(attrs.fileModel);
+            var modelSetter = model.assign;
+
+            element.bind('change', function(){
+                scope.$apply(function(){
+                    modelSetter(scope, element[0].files[0]);
+                });
+            });
+        }
+    };
+}]);
+//A directive for saving the image in angular variable to immediately retrive in the UI
+
 app.directive("fileread", [function () {
     return {
         scope: {
