@@ -31,7 +31,7 @@ app.factory('sharedProperties', function($cookies) {
 app.factory('myModals', function($mdDialog) {
 
     return {
-        modal: function(ev, modalUrl) {
+        createTribeModal: function(ev, modalUrl) {
             //$scope.status = '  ';
             //$scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
             $mdDialog.show({
@@ -41,6 +41,23 @@ app.factory('myModals', function($mdDialog) {
                     clickOutsideToClose:true
                 });
         },
+        updateTribeModal: function(ev, modalUrl, name, description, tribeId, image_url) {
+            //$scope.status = '  ';
+            //$scope.customFullscreen = $mdMedia('xs') || $mdMedia('sm');
+            $mdDialog.show({
+                templateUrl: modalUrl,
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose:true,
+                controller: function($mdDialog){
+                    this.name = name;
+                    this.description = description;
+                    this.tribeId = tribeId;
+                    this.image_url = image_url;
+                },
+                controllerAs:'modal'
+            });
+        },
     };
 });
 
@@ -48,29 +65,6 @@ app.factory('myModals', function($mdDialog) {
 
 
 //Service for creating a new tribe
-
-/* Create tribe
-    URL: http://localhost:1337/tribe
-    METHOD: POST
-    PARAMS: name (string), description (string), members(int id of user member)
-*/
-
-
-/*Update tribe
-    URL: http://localhost:1337/tribe/:id
-    METHOD: PUT
- PARAMS: name (string), description (string), members(int id of user member), topics (int id of topics), image_url (string)*/
-
-/*Delete tribe
-*
- URL: http://localhost:1337/tribe/:id
- METHOD: DELETE
- PARAMS: none
-
- *
-* */
-
-
 app.factory('tribes', function($http) {
 
     return {
@@ -119,6 +113,10 @@ app.factory('tribes', function($http) {
             });
             return promise;
         },
+        /*Update tribe
+         URL: http://localhost:1337/tribe/:id
+         METHOD: PUT
+         PARAMS: name (string), description (string), members(int id of user member), topics (int id of topics), image_url (string)*/
        /* updateTribe: function(userId, tribeName, tribeDescription, topicId, imageUrl)
         {
             var dataObjGraph = {
@@ -196,9 +194,9 @@ app.controller('indexCtrl', function($scope, $timeout, $interval, $mdDialog, $md
     ////////////////////Create Tribe
 
         //Get modal to create tribe
-        $scope.showAdvanced = function(ev) {
+        $scope.createTribeModal = function(ev) {
             var url = '/modals/createTribe.ejs'
-            myModals.modal(ev, url);
+            myModals.createTribeModal(ev, url);
         };
 
         $scope.cancel = function() {
@@ -218,18 +216,45 @@ app.controller('indexCtrl', function($scope, $timeout, $interval, $mdDialog, $md
 
                 $mdDialog.cancel();
                 showSimpleToast("Tribe created");
-
-
-
             });
 
             $timeout(function(){tribesReload();}, 1000);
 
         }
-
-
-
     ////////////////////End of create tribe
+
+
+
+    ////////////////////Update Tribe
+
+    //Get modal to update tribe
+    $scope.updateTribeModal = function(ev, name, description, tribeId, image_url) {
+        var url = '/modals/updateTribe.ejs'
+        myModals.updateTribeModal(ev, url, name, description, tribeId, image_url);
+    };
+
+    $scope.cancel = function() {
+        $mdDialog.cancel();
+    };
+    //Action to update tribe
+    $scope.updateNewTribe = function(){
+
+        var tribeName = $scope.name;
+        var tribeDescription = $scope.description;
+        var userId = sharedProperties.getUserId();
+        var file = $scope.myFile;
+        tribes.updateTribe(tribeName, tribeDescription, userId, file).then(function(results){
+            $scope.createdtribe = results.data;
+            console.log(results);
+
+            $mdDialog.cancel();
+            showSimpleToast("Tribe created");
+        });
+
+        $timeout(function(){tribesReload();}, 1000);
+
+    }
+    ////////////////////End of update tribe
 
     ////////////////////Delete tribe
     $scope.deleteThisTribe=function(tribeId){
@@ -337,3 +362,4 @@ app.directive("fileread", [function () {
         }
     }
 }]);
+

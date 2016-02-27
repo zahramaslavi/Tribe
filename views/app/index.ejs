@@ -1,6 +1,8 @@
 <!-- Remember that this file will render as the body of the layout file in this directory -->
 
-
+<!--In my view, we have two options: aether we can forget about the edit for tribe/topic/photo
+ or we can think of a way to authenticate the edit - for example by adding creator_id attribute
+  to the model, and I can handle the rest in the client-side.-->
 
 <div ng-controller="indexCtrl" ng-init="tribesRequestAndSession('<%= user.id %>')" layout="column" flex ng-cloak>
 
