@@ -1,7 +1,7 @@
-var app = angular.module('myApp', ['ngMaterial']);
+var backgroundDirective = angular.module('backgroundDirective', []);
 
 //Background image directive for login and register page
-app.directive('backgroundImageDirective', function () {
+backgroundDirective.directive('backgroundImageDirective', function () {
     return function (scope, element, attrs) {
         element.css({
             //'background-image': 'url(' + attrs.backgroundImageDirective + ')',
