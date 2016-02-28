@@ -37,7 +37,7 @@
             <img ng-src="/public/tribes/{{tribe.image_url}}" class="dimage md-card-image" alt="Washed Out">
           </div>
           <md-card-actions layout="column">
-            <md-button class="md-icon-button" aria-label="Share">
+            <md-button class="md-icon-button" aria-label="Share" ng-click="becomeMember('<%= user.id %>')">
               <ng-md-icon icon="person_add" style="fill: gray" size="24px"
               ></ng-md-icon>
             </md-button>

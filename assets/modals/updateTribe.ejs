@@ -44,18 +44,21 @@
                 <div flex layout="row" layout-align="center center">
                     <div flex="10"></div>
                     <div flex="80"  class="md-block">
-                        <input type="file" file-model="myFile" fileread="$parent.uploadme"/>
-                         <img ng-src="/public/tribes/{{modal.image_url}}" class="smallImage md-card-image" alt="Washed Out">
+                        <input type="file" file-model="modal.image_url" fileread="$parent.uploadme"/>
+
+                         <!--<img ng-src="/public/tribes/{{modal.image_url}}" class="smallImage md-card-image" alt="Washed Out">-->
                     </div>
                     <div flex="10"></div>
                 </div>
 
                 <br>
 
+                <input type="hidden" name="members" ng-model="modal.tribeId"><br>
+
                 <div flex="10"></div>
                 <div flex="80"  layout="row" layout-align="center center">
                     <md-button flex layout="row" class="md-primary md-hue-1 md-raised"
-                               aria-label="More" md-ink-ripple="#FF0000" ng-click="createNewTribe()">
+                               aria-label="More" md-ink-ripple="#FF0000" ng-click="updateTribe()">
                         <ng-md-icon icon="group_add" style="fill: white" size="38px"
                         ></ng-md-icon>
                     </md-button>
