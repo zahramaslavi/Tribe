@@ -17,8 +17,13 @@ module.exports = {
    * environment (see config/connections.js and config/models.js )           *
    ***************************************************************************/
 
-  // models: {
-  //   connection: 'someMongodbServer'
-  // }
+   log: {
+     level: 'debug'
+   },
+
+   models: {
+     connection: 'localDiskDb',
+     migrate: 'safe'
+   }
 
 };

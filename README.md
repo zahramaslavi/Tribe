@@ -17,13 +17,9 @@ npm install
 sails lift
 ```
 
-The application will run with a local database. To use mongoDB, make sure to comment localDiskDb and uncomment localMongodbServer at config/models.js
+## DEPLOYING WITH HEROKU
 
-```
-//connection: 'localDiskDb',
-'connection': 'localMongodbServer'
-```
-
+http://pburtchaell.com/2015/sails/
 
 ## FRONT-END
 
@@ -88,11 +84,132 @@ Tribes are collections of topics. Tribes have members, which can be associated w
 * METHOD: GET
 * PARAMS: none
 
+Example response:
+
+```
+[
+  {
+    "members": [
+      {
+        "username": "calderonroberto",
+        "email": "roberto.entrepreneur@gmail.com",
+        "createdAt": "2016-02-28T07:18:30.738Z",
+        "updatedAt": "2016-02-28T07:18:30.738Z",
+        "id": 1
+      }
+    ],
+    "topics": [
+      {
+        "description": "A first topic",
+        "createdAt": "2016-02-28T07:19:59.999Z",
+        "updatedAt": "2016-02-28T07:20:00.003Z",
+        "id": 1
+      },
+      {
+        "description": "A second Topic",
+        "createdAt": "2016-02-28T07:20:05.829Z",
+        "updatedAt": "2016-02-28T07:20:05.833Z",
+        "id": 2
+      },
+      {
+        "description": "Yet another topic",
+        "createdAt": "2016-02-28T07:20:14.351Z",
+        "updatedAt": "2016-02-28T07:20:14.354Z",
+        "id": 3
+      }
+    ],
+    "image_url": "08d56393-2017-4177-a687-2dd928a9a91f.jpg",
+    "description": "The first Tribe",
+    "name": "Tribe One",
+    "createdAt": "2016-02-28T07:19:00.512Z",
+    "updatedAt": "2016-02-28T07:19:00.520Z",
+    "id": 1
+  },
+  {
+    "members": [
+      {
+        "username": "calderonroberto",
+        "email": "roberto.entrepreneur@gmail.com",
+        "createdAt": "2016-02-28T07:18:30.738Z",
+        "updatedAt": "2016-02-28T07:18:30.738Z",
+        "id": 1
+      }
+    ],
+    "topics": [],
+    "image_url": "2ad35316-b98b-494d-931d-78ca47cbdd98.jpg",
+    "description": "Another Tribe",
+    "name": "Second Tribe",
+    "createdAt": "2016-02-28T07:19:29.377Z",
+    "updatedAt": "2016-02-28T07:19:29.382Z",
+    "id": 2
+  },
+  {
+    "members": [
+      {
+        "username": "calderonroberto",
+        "email": "roberto.entrepreneur@gmail.com",
+        "createdAt": "2016-02-28T07:18:30.738Z",
+        "updatedAt": "2016-02-28T07:18:30.738Z",
+        "id": 1
+      }
+    ],
+    "topics": [],
+    "image_url": "3399f159-d05e-4828-b403-d1b3272f9109.jpg",
+    "description": "Yet Another Tribe",
+    "name": "A Third Tribe",
+    "createdAt": "2016-02-28T07:19:51.787Z",
+    "updatedAt": "2016-02-28T07:19:51.791Z",
+    "id": 3
+  }
+]
+```
 #### Retrieve one tribe
 
 * URL: http://localhost:1337/tribe/:id
 * METHOD: GET
 * PARAMS: none
+
+Example response:
+
+```
+{
+  "members": [
+    {
+      "username": "calderonroberto",
+      "email": "roberto.entrepreneur@gmail.com",
+      "createdAt": "2016-02-28T07:18:30.738Z",
+      "updatedAt": "2016-02-28T07:18:30.738Z",
+      "id": 1
+    }
+  ],
+  "topics": [
+    {
+      "description": "A first topic",
+      "createdAt": "2016-02-28T07:19:59.999Z",
+      "updatedAt": "2016-02-28T07:20:00.003Z",
+      "id": 1
+    },
+    {
+      "description": "A second Topic",
+      "createdAt": "2016-02-28T07:20:05.829Z",
+      "updatedAt": "2016-02-28T07:20:05.833Z",
+      "id": 2
+    },
+    {
+      "description": "Yet another topic",
+      "createdAt": "2016-02-28T07:20:14.351Z",
+      "updatedAt": "2016-02-28T07:20:14.354Z",
+      "id": 3
+    }
+  ],
+  "image_url": "08d56393-2017-4177-a687-2dd928a9a91f.jpg",
+  "description": "The first Tribe",
+  "name": "Tribe One",
+  "createdAt": "2016-02-28T07:19:00.512Z",
+  "updatedAt": "2016-02-28T07:19:00.520Z",
+  "id": 1
+}
+```
 
 #### Create a tribe
 
@@ -103,21 +220,77 @@ Tribes are collections of topics. Tribes have members, which can be associated w
 Example JSON payload:
 
 ```
-{"name":"Founders", "description": "The first tribe", "members":7}
+{"name":"Founders", "description": "The first tribe"}
 ```
 
 Note that this will not upload an image. you can use http://localhost:1337/tribe/upload to upload an image with that tribe. Add the parameter 'photo'. A testing form is available at http://localhost:1337/tribe/new
+
+#### Join a Tribe
+
+* URL: http://localhost:1337/tribe/:id/join
+* METHOD: POST
+* PARAMS: none
+
+This API endpoint will add the authenticated user to the list of members of such tribe. It will return the updated Tribe. Example Response:
+
+```
+
+{
+  "members": [
+    {
+      "username": "calderonroberto",
+      "email": "roberto.entrepreneur@gmail.com",
+      "createdAt": "2016-02-28T07:18:30.738Z",
+      "updatedAt": "2016-02-28T07:18:30.738Z",
+      "id": 1
+    },
+    {
+      "username": "pancho",
+      "email": "pancho@gmail.com",
+      "createdAt": "2016-02-28T08:10:48.358Z",
+      "updatedAt": "2016-02-28T08:10:48.358Z",
+      "id": 2
+    }
+  ],
+  "topics": [
+    {
+      "description": "A first topic",
+      "createdAt": "2016-02-28T07:19:59.999Z",
+      "updatedAt": "2016-02-28T07:20:00.003Z",
+      "id": 1
+    },
+    {
+      "description": "A second Topic",
+      "createdAt": "2016-02-28T07:20:05.829Z",
+      "updatedAt": "2016-02-28T07:20:05.833Z",
+      "id": 2
+    },
+    {
+      "description": "Yet another topic",
+      "createdAt": "2016-02-28T07:20:14.351Z",
+      "updatedAt": "2016-02-28T07:20:14.354Z",
+      "id": 3
+    }
+  ],
+  "image_url": "08d56393-2017-4177-a687-2dd928a9a91f.jpg",
+  "description": "The first Tribe",
+  "name": "Tribe One",
+  "createdAt": "2016-02-28T07:19:00.512Z",
+  "updatedAt": "2016-02-28T08:18:09.254Z",
+  "id": 1
+}
+```
 
 #### Update a tribe
 
 * URL: http://localhost:1337/tribe/:id
 * METHOD: PUT
-* PARAMS: name (string), description (string), members(int id of user member), topics (int id of topics), image_url (string)
+* PARAMS: name (string), description (string), image_url (string)
 
 Example JSON payload:
 
 ```
-{"name":"Founders", "description": "Modified tribe", "members":7}
+{"name":"Founders", "description": "Modified tribe"}
 ```
 
 #### Delete a tribe
@@ -136,11 +309,65 @@ Topics are string "questions" or "goals" that belong to one or many tribes and h
 * METHOD: GET
 * PARAMS: none
 
+
 #### Retrieve one topic
 
 * URL: http://localhost:1337/topic/:id
 * METHOD: GET
 * PARAMS: none
+
+Example Response:
+
+```
+{
+  "photos": [
+    {
+      "image_url": "debd1c33-1873-4d39-b3cf-c76376ed14a6.jpg",
+      "description": "First Photo",
+      "votes": 1,
+      "owner": 1,
+      "topic": 3,
+      "createdAt": "2016-02-28T07:20:27.856Z",
+      "updatedAt": "2016-02-28T07:22:08.737Z",
+      "id": 1
+    },
+    {
+      "image_url": "5a022567-001b-471c-ba99-ce279a39092f.svg",
+      "description": "Second Photo",
+      "votes": 0,
+      "owner": 1,
+      "topic": 3,
+      "createdAt": "2016-02-28T07:21:33.017Z",
+      "updatedAt": "2016-02-28T07:21:33.017Z",
+      "id": 2
+    },
+    {
+      "image_url": "e3e03041-a312-49f6-9a27-538105b69f74.jpg",
+      "description": "A Tacoma",
+      "votes": 0,
+      "owner": 1,
+      "topic": 3,
+      "createdAt": "2016-02-28T07:22:03.183Z",
+      "updatedAt": "2016-02-28T07:22:03.183Z",
+      "id": 3
+    }
+  ],
+  "tribes": [
+    {
+      "image_url": "08d56393-2017-4177-a687-2dd928a9a91f.jpg",
+      "description": "The first Tribe",
+      "name": "Tribe One",
+      "createdAt": "2016-02-28T07:19:00.512Z",
+      "updatedAt": "2016-02-28T07:19:00.520Z",
+      "id": 1
+    }
+  ],
+  "description": "Yet another topic",
+  "createdAt": "2016-02-28T07:20:14.351Z",
+  "updatedAt": "2016-02-28T07:20:14.354Z",
+  "id": 3
+}
+```
 
 #### Create a topic
 
@@ -158,12 +385,12 @@ Example JSON payload:
 
 * URL: http://localhost:1337/topic/:id
 * METHOD: PUT
-* PARAMS: description (string), tribes (int id of tribes)
+* PARAMS: description (string)
 
 Example JSON payload:
 
 ```
-{"description": "Modified topic", "tribes":7}
+{"description": "Modified topic"}
 ```
 
 #### Delete a topic
@@ -212,7 +439,7 @@ Note that this will not upload an image. you can use http://localhost:1337/photo
 Example JSON payload:
 
 ```
-{"description": "Modified topic"}
+{"description": "Modified description"}
 ```
 
 #### Delete a photo

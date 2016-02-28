@@ -31,8 +31,25 @@ module.exports = {
    * Set the log level in production environment to "silent"                 *
    ***************************************************************************/
 
-  // log: {
-  //   level: "silent"
-  // }
+  log: {
+     level: 'silent'
+  },
+
+  /*
+  connections : {
+    productionMondodbServer: {
+      adapter: 'sails-mongo',
+      url: process.env.MONGOLAB_URI
+    }
+  },
+  */
+  models: {
+     connection: 'productionMondodbServer',
+     migrate: 'safe'
+  }
+
+  //'connection': 'localMongodbServer'
+  //migrate:'safe', //this will keep your db every time
+
 
 };
