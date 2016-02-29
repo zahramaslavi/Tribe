@@ -16,6 +16,35 @@ To start the application, from the Tribe directory, install the modules and run:
 npm install
 sails lift
 ```
+## MongoDB setup
+
+Install MongoDB. Create a user by running these two commands in a mongo client:
+
+```
+use tribe
+db.addUser( { user: "user", pwd: "password", roles: [ "readWrite", "dbAdmin" ]} )
+```
+
+For development modify the `config/skipperconf.js` file to match your credentials
+
+```
+module.exports.skipperconf = {
+    local_uri: 'mongodb://user:password@localhost:27017/tribe.bucket'
+};
+```
+
+Configure your `config/env/development.js` file to match your credentials:
+
+```
+localMongodbServer: {
+  adapter: 'sails-mongo',
+  host: 'localhost',
+  port: 27017,
+  user: 'user',
+  password: 'password',
+  database: 'tribe'
+}
+```
 
 ## DEPLOYING WITH HEROKU
 
@@ -46,8 +75,6 @@ http://localhost:1337/app
 #### NOTE
 
 You will notice that when you upload a file the front end will not find it. This is because the .tmp/public folder is re-built on a schedule, even when you upload a file it will not automatically be available. There's two ways to go at it: 1) use a proper Amazon S3 storage ([following this documentation](http://sailsjs.org/documentation/concepts/file-uploads/uploading-to-s-3)), update the urls on the front end and you're done. 2) you can hack (I really don't like this option) it so that it directly saves it to .tmp/public, however you need to configure grunt not to delete your files upon reload. For more info [see this stackoverflow question](http://stackoverflow.com/questions/32333698/i-can-not-see-the-image-i-just-uploaded-sails-js).
-
-
 
 ## TRIBE API
 

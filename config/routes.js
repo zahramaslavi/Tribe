@@ -59,6 +59,12 @@ module.exports.routes = {
     skipAssets: true
   },
 
+  'get /content/img/:id': {
+    controller: 'ContentController',
+    action: 'img',
+    skipAssets: true
+  },
+
   //Passport related routes for user creation.
 
   'get /login': 'AuthController.login',
