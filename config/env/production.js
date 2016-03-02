@@ -35,19 +35,17 @@ module.exports = {
      level: 'silent'
   },
 
-  /*
-  connections : {
-    productionMondodbServer: {
-      adapter: 'sails-mongo',
-      url: process.env.MONGOLAB_URI
-    }
-  },
-  */
   models: {
-     connection: 'productionMondodbServer',
+     connection: 'production',
      migrate: 'safe'
-  }
+  },
 
+  connections: {
+    production: {
+      adapter: 'sails-mongo',
+      url: process.env.MONGOLAB_URI,
+    }
+  }
   //'connection': 'localMongodbServer'
   //migrate:'safe', //this will keep your db every time
 

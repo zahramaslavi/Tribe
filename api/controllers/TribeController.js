@@ -13,22 +13,22 @@ module.exports = {
 
 	upload: function  (req, res) {
 
-		var name = req.param('name');
-		var description = req.param('description');
-		var members = req.param('members');
-
     req.file('photo').upload(
-		//TODO: currently uploads are stored in ''/assets/images/photos/'.
-		// This is very inefficinent, you should use something like S3 or another file storage service.
 		{
-			dirname: sails.config.appPath+'/assets/public/tribes/'
+			adapter: require('skipper-gridfs'),
+			uri: process.env.MONGOLAB_URI + '.bucket' || sails.config.skipperconf.local_uri //bucket is necessary (bug)
 		},
 		function (err, files) {
 
       if (err)
         return res.serverError(err);
 
+			//TODO: compress before saving
 			var url = files[0].fd.substring(files[0].fd.lastIndexOf('/')+1,files[0].fd.length);
+			var name = req.param('name');
+			var description = req.param('description');
+			var members = req.param('members');
+
 			Tribe.create({
 				image_url:url,
 				description: description,
