@@ -4,7 +4,7 @@
  or we can think of a way to authenticate the edit - for example by adding creator_id attribute
   to the model, and I can handle the rest in the client-side.-->
 
-<div ng-controller="indexCtrl" ng-init="tribesRequestAndSession('<%= user.id %>')" layout="column" flex ng-cloak>
+<div ng-controller="indexCtrl" ng-init="tribesRequestAndSession('<%= user.id %>', <%= user.username %>)" layout="column" flex ng-cloak>
 
 
   <%- partial ('../partials/navbar.ejs') %>
@@ -34,11 +34,12 @@
         </md-card-title>
         <md-card-content layout="row" layout-align="space-between">
           <div class="md-media-xl card-media">
-            <img ng-src="/public/tribes/{{tribe.image_url}}" class="dimage md-card-image" alt="Washed Out">
+            <img ng-src="content/img/{{tribe.image_url}}" class="dimage md-card-image" alt="Washed Out">
           </div>
           <md-card-actions layout="column">
             <md-button class="md-icon-button" aria-label="Share" ng-click="becomeMember(tribe.id)">
-              <ng-md-icon icon="person_add" style="fill: gray" size="24px"
+              <ng-md-icon icon="person_add" 
+              ng-style="{ fill: memberIdCheck.indexOf(tribe.id) == -1? 'gray' : 'red' }" size="24px"
               ></ng-md-icon>
             </md-button>
             <md-button class="md-icon-button" aria-label="Favorite" ng-click="updateTribeModal($event, tribe.name, tribe.description, tribe.id, tribe.image_url)">

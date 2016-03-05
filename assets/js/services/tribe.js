@@ -22,6 +22,7 @@ tribeServices.factory('tribes', function($http) {
             });
 
             promise.success(function(data) {
+                console.log(JSON.stringify({data: data}));
                 return JSON.stringify({data: data});
             });
 
@@ -126,32 +127,6 @@ tribeServices.factory('tribes', function($http) {
         },
         becomeMember: function(userId)
         {
-            /*var myUrl = '/tribe/' + userId + '/join';
-            var promise = $http({
-                method: 'POST',
-                url: myUrl,
-                dataType:'json',
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                transformRequest: function(obj) {
-                    var str = [];
-                    for(var p in obj)
-                        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
-                    return str.join("&");
-                }
-            });
-
-            promise.success(function(data) {
-                return JSON.stringify({data: data});
-            });
-
-            promise.error(function(data) {
-                return "failure message: " + JSON.stringify({data: data});
-            });
-            return promise;*/
-
-
-
-
             var myUrl = '/tribe/' + userId;
 
             var promise = $http.post(myUrl, {

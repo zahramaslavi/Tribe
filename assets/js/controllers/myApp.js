@@ -16,13 +16,19 @@ app.controller('indexCtrl', function($scope, $timeout, $interval, $mdDialog, $md
         $scope.tribes = sharedProperties.getTribes();
     }, 2000);
 
+    /*The style for add member Icon*/
+    
+    $scope.memberIdCheck = [];
 
     //Load all tribes when the page loads
-        $scope.tribesRequestAndSession = function(id){
+        $scope.tribesRequestAndSession = function(id, username){
             tribes.requestTribes().then(function(results){
                 $scope.tribes = results.data;
+                console.log(results.data);
                 sharedProperties.setUserId(id);
+                sharedProperties.setUsername(username);
                 sharedProperties.setTribes(results.data);
+                checkMember($scope.tribes);
             });
         }
 
@@ -107,11 +113,12 @@ app.controller('indexCtrl', function($scope, $timeout, $interval, $mdDialog, $md
     $scope.becomeMember = function(userId){
 
         tribes.becomeMember(userId).then(function(results){
-            $scope.deletedtribe = results.data;
+            $scope.memberData = results.data;
             console.log(results.data);
-
-            $scope.member = 'true';
-
+            tribesReload();
+            /*$scope.member = 'true';
+            $scope.memberIdCheck.push($scope.memberData.id);
+            console.log($scope.memberIdCheck);*/
         });
     }
     ///////////////End of become a member
@@ -142,10 +149,38 @@ app.controller('indexCtrl', function($scope, $timeout, $interval, $mdDialog, $md
             tribes.requestTribes().then(function(results){
                 $scope.tribes = results.data;
                 sharedProperties.setTribes(results.data);
-                console.log($scope.tribes);
+                //console.log($scope.tribes[1]);
+                checkMember($scope.tribes);
+                //Check the user-member situation
+                //for(i in )
+                //$scope.memberIdCheck.push($scope.memberData.id);
+
             });
 
         }, 1000);
+    }
+
+    function checkMember(tribes){
+        $scope.currentUserId = sharedProperties.getUserId();
+        angular.forEach(tribes, function(value, key) {
+              /*console.log(value.members);*/
+              /* $scope.currentUserId = sharedProperties.getUserId();
+              if(value.members.contains($scope.currentUserId)){
+                 $scope.memberIdCheck.push($scope.memberData.id);
+              }
+
+              console.log($scope.memberIdCheck);*/
+              angular.forEach(value.members, function(memberValue, key){
+                
+                if(memberValue.id == $scope.currentUserId && ($scope.memberIdCheck.indexOf(value.id) == -1)){
+                    $scope.memberIdCheck.push(value.id);
+                }
+                    
+              });
+
+              console.log($scope.memberIdCheck);
+            });
+
     }
 
 
