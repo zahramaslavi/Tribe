@@ -127,7 +127,7 @@ tribeServices.factory('tribes', function($http) {
         },
         becomeMember: function(userId)
         {
-            var myUrl = '/tribe/' + userId;
+            var myUrl = '/tribe/' + userId + '/join';
 
             var promise = $http.post(myUrl, {
                 transformRequest: angular.identity,
