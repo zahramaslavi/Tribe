@@ -4,144 +4,24 @@
  or we can think of a way to authenticate the edit - for example by adding creator_id attribute
   to the model, and I can handle the rest in the client-side.-->
 
-<div ng-controller="indexCtrl" ng-init="tribesRequestAndSession('<%= user.id %>', <%= user.username %>)" layout="column" flex ng-cloak>
 
+
+
+<div  layout="column" flex ng-cloak>
 
   <%- partial ('../partials/navbar.ejs') %>
 
+  <div id="main">
 
-  <md-content layout="row" flex class="backgroundColorGray">
+    <div ng-view></div>
 
+  </div>
 
-
-    <!--Tribes cards-->
-    <div flex layout="column" layout-align="center center">
-      <div class="divFont" >
-        <h1>Available tribes</h1><br/>
-        <h1>Available tribes</h1><br/>
-        <h1>Available tribes</h1><br/>
-        <h1>Available tribes</h1><br/>
-
-      </div>
-
-      <div flex="50"  ng-repeat="tribe in tribes">
-      <md-card>
-        <md-card-title>
-          <md-card-title-text>
-            <span class="md-headline">{{tribe.name}}</span>
-            <span class="md-subhead">{{tribe.description}}</span>
-          </md-card-title-text>
-        </md-card-title>
-        <md-card-content layout="row" layout-align="space-between">
-          <div class="md-media-xl card-media">
-            <img ng-src="content/img/{{tribe.image_url}}" class="dimage md-card-image" alt="Washed Out">
-          </div>
-          <md-card-actions layout="column">
-            <md-button class="md-icon-button" aria-label="Share" ng-click="becomeMember(tribe.id)">
-              <ng-md-icon icon="person_add" 
-              ng-style="{ fill: memberIdCheck.indexOf(tribe.id) == -1? 'gray' : 'red' }" size="24px"
-              ></ng-md-icon>
-            </md-button>
-            <md-button class="md-icon-button" aria-label="Favorite" ng-click="updateTribeModal($event, tribe.name, tribe.description, tribe.id, tribe.image_url)">
-              <ng-md-icon icon="edit" style="fill: gray" size="24px"
-              ></ng-md-icon>
-            </md-button>
-            <md-button class="md-icon-button" aria-label="Share" ng-click="deleteThisTribe(tribe.id)">
-              <ng-md-icon icon="delete" style="fill: gray" size="24px"
-              ></ng-md-icon>
-            </md-button>
-          </md-card-actions>
-        </md-card-content>
-      </md-card>
-      </div>
-
-    </div>
-
-
-    <!--Create tribe button-->
-    <md-button class="md-primary md-hue-1 md-raised md-icon-button md-fab md-fab-bottom-right"
-               aria-label="More" ng-click="createTribeModal($event)" md-ink-ripple="#FF0000">
-      <ng-md-icon icon="group_add" style="fill: white" size="38px"
-      ></ng-md-icon>
-    </md-button>
-
-
-  <!--<h1>Available Tribes</h1>
-  <div id="tribes"></div>-->
 
 
 </div>
 
-<!-- This should go in a hidden modal-->
 
-<!--<h1>Create A New Tribe</h1>
-
-<h1>Available Tribes</h1>
-<div id="tribes"></div>
-
-
-<!-- This should go in a hidden modal-->
-
-<!--<h1>Create A New Tribe</h1>
-
-<form id="tribe-form" action="/tribe/upload" enctype="multipart/form-data" method="post">
-Name: <input type="text" name="name"><br>
-Description: <input type="text" name="description"><br>
-<input type="hidden" name="members" value="<%= user.id %>"><br>
-Image: <input type="file" name="photo" multiple="multiple"><br>
-<input type="submit" value="New">
-
-</form>-->
-
-
-
-
-
-
-
-<!-- This must be moved to a different file, left here for example -->
-<!--
-<script>
-
-  $( document ).ready(function() {
-
-    // Get Tribes
-    $.ajax({
-      url: "/tribe"
-    }).done(function( data ) {
-
-      $.each(data, function(k,v){
-        $("#tribes").append(
-          "<div class='tribe'><h3>"+v.name+"</h3><a href='/app/tribe/"+v.id+"'><img src='/public/tribes/"+v.image_url+"'></img></a><p>"+v.description+"</p></div>"
-        );
-      });
-
-    });
-
-  });
-
-  $( '#tribe-form' )
-  .submit( function( e ) {
-    $.ajax( {
-      url: '/tribe/upload',
-      type: 'POST',
-      data: new FormData( this ),
-      processData: false,
-      contentType: false
-    }).done(function(data){
-      $("#tribes").prepend(
-        "<div class='tribe'><h3>"+data.name+"</h3><a href='/app/tribe/"+data.id+"'><img src='/public/tribes/"+data.image_url+"'></img></a><p>"+data.description+"</p></div>"
-      );
-
-      /*//TODO: because the assets pipeline needs to re-build the .tmp/public folder the file doesn't seem to be available right after uploading, thus, a 404 is thrown. This is fixed when using a proper image hosting service like Amazon S3, you should really look in to it.*/
-
-    });
-    e.preventDefault();
-  })
-
-
-</script>
--->
 
 
 

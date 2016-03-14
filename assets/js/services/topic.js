@@ -1,11 +1,11 @@
-var tribeServices = angular.module('tribeServices', []);
+var topicServices = angular.module('topicServices', []);
 
 
 //Tribe service
-tribeServices.factory('tribes', function($http) {
+topicServices.factory('topics', function($http) {
 
   return {
-    requestTribes: function()
+    requestAllTopics: function()
     {
       var myUrl = '/tribe';
       var promise = $http({
@@ -22,6 +22,7 @@ tribeServices.factory('tribes', function($http) {
       });
 
       promise.success(function(data) {
+        console.log(JSON.stringify({data: data}));
         return JSON.stringify({data: data});
       });
 
@@ -30,39 +31,61 @@ tribeServices.factory('tribes', function($http) {
       });
       return promise;
     },
-    createTribe: function(tribeName, tribeDescription, userId, tribePhoto){
-      var myUrl = '/tribe/upload';
-      var fd = new FormData();
-      fd.append('name', tribeName);
-      fd.append('description', tribeDescription);
-      fd.append('members', userId);
-      fd.append('photo', tribePhoto);
-      var promise = $http.post(myUrl, fd, {
-        transformRequest: angular.identity,
-        headers: {'Content-Type': undefined}
-      });
-      promise.success(function(data) {
-        return JSON.stringify({data: data});
-      });
-
-      promise.error(function(data) {
-        return "failure message: " + JSON.stringify({data: data});
-      });
-      return promise;
-    },
-    /*Update tribe
-     URL: http://localhost:1337/tribe/:id
-     METHOD: PUT
-     PARAMS: name (string), description (string), members(int id of user member), topics (int id of topics), image_url (string)*/
-    /////////Under development
-    updateTribe: function(tribeId, tribeName, tribeDescription)
+    requestTopics: function(tribeId)
     {
-       var dataObjGraph = {
-       name : tribeName,
-       description : tribeDescription
-       /*image_url:tribePhoto*/
+      var myUrl = '/tribe/' + tribeId;
+      var promise = $http({
+        method: 'GET',
+        url: myUrl,
+        dataType:'json',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        transformRequest: function(obj) {
+          var str = [];
+          for(var p in obj)
+            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+          return str.join("&");
+        }
+      });
+
+      promise.success(function(data) {
+        console.log(JSON.stringify({data: data}));
+        return JSON.stringify({data: data});
+      });
+
+      promise.error(function(data) {
+        return "failure message: " + JSON.stringify({data: data});
+      });
+      return promise;
+    },
+    createTopic: function(topicDescription, tribeId){  //description (string), tribes (int id of tribe it belongs to)
+       var dataObj = {
+       description : topicDescription,
+        tribes : tribeId
        };
-       var myUrl = '/tribe/' + tribeId;
+       var myUrl = '/topic';
+       var promise = $http({
+       method: 'POST',
+       url: myUrl,
+       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+       transformRequest: function(obj) {
+       var str = [];
+       for(var p in obj)
+       str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+       return str.join("&");
+       },
+       'data': dataObj
+       }).then(function(response,status, headers, config){
+       return response.data;
+       });
+       return promise;
+    },
+
+    updateTopic: function(topicDescription, topicId)
+    {
+       var dataObj = {
+       description : topicDescription
+       };
+       var myUrl = '/topic/' + topicId;
        var promise = $http({
        method: 'PUT',
        url: myUrl,
@@ -73,36 +96,16 @@ tribeServices.factory('tribes', function($http) {
        str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
        return str.join("&");
        },
-       'data': dataObjGraph
+       'data': dataObj
        }).then(function(response,status, headers, config){
        return response.data;
        });
        return promise;
 
-
-
-     /* var myUrl = '/tribe/' + tribeId;
-      var fd = new FormData();
-      fd.append('name', tribeName);
-      fd.append('description', tribeDescription);
-      fd.append('image_url', tribePhoto);
-
-      var promise = $http.put(myUrl, fd, {
-        transformRequest: angular.identity,
-        headers: {'Content-Type': undefined}
-      });
-      promise.success(function(data) {
-        return JSON.stringify({data: data});
-      });
-
-      promise.error(function(data) {
-        return "failure message: " + JSON.stringify({data: data});
-      });
-      return promise;*/
     },
-    deleteTribe: function(tribeId)
+    deleteTopic: function(topicId)
     {
-      var myUrl = '/tribe/' + tribeId;
+      var myUrl = '/topic/' + topicId;
       var promise = $http({
         method: 'DELETE',
         url: myUrl,
@@ -125,9 +128,9 @@ tribeServices.factory('tribes', function($http) {
       });
       return promise;
     },
-    becomeMember: function(tribeId)
+    becomeMember: function(userId)
     {
-      var myUrl = '/tribe/' + tribeId + '/join';
+      var myUrl = '/tribe/' + userId + '/join';
 
       var promise = $http.post(myUrl, {
         transformRequest: angular.identity,

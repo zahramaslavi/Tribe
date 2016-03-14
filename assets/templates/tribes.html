@@ -1,0 +1,57 @@
+<div ng-controller="tribesCtrl" ng-init="tribesRequest()">
+
+  <md-content layout="row" flex class="backgroundColorGray">
+
+
+
+    <div flex layout="column" layout-align="center center">
+      <!-- <div class="divFont" >
+         <h1>Available tribes</h1><br/>
+       </div>
+-->
+      <div flex="50"  ng-repeat="tribe in tribes">
+        <md-card>
+          <md-card-title>
+            <md-card-title-text>
+              <span class="md-headline">{{tribe.name}}</span>
+              <span class="md-subhead">{{tribe.description}}</span>
+            </md-card-title-text>
+          </md-card-title>
+          <md-card-content layout="row" layout-align="space-between">
+            <div class="md-media-xl card-media">
+              <a ng-href="#/topics" ng-click="clickedTribe(tribe.id,tribe.name)">
+                <img ng-src="content/img/{{tribe.image_url}}" class="dimage md-card-image" alt="Washed Out">
+              </a>
+            </div>
+            <md-card-actions layout="column">
+              <md-button class="md-icon-button" aria-label="Share" ng-click="becomeMember(tribe.id)">
+                <ng-md-icon icon="person_add"
+                            ng-style="{ fill: memberIdCheck.indexOf(tribe.id) == -1? 'gray' : 'red' }" size="24px"
+                ></ng-md-icon>
+              </md-button>
+              <md-button class="md-icon-button" aria-label="Favorite" ng-click="updateTribeModal($event, tribe.name, tribe.description, tribe.id, tribe.image_url)">
+                <ng-md-icon icon="edit" style="fill: gray" size="24px"
+                ></ng-md-icon>
+              </md-button>
+              <md-button class="md-icon-button" aria-label="Share" ng-click="deleteThisTribe(tribe.id)">
+                <ng-md-icon icon="delete" style="fill: gray" size="24px"
+                ></ng-md-icon>
+              </md-button>
+            </md-card-actions>
+          </md-card-content>
+        </md-card>
+      </div>
+
+
+
+      <div>
+        <md-button class="md-primary md-hue-1 md-raised md-icon-button md-fab md-fab-bottom-right"
+                   aria-label="More" ng-click="createTribeModal($event)" md-ink-ripple="#FF0000">
+          <ng-md-icon icon="group_add" style="fill: white" size="38px"
+          ></ng-md-icon>
+        </md-button>
+      </div>
+
+    </div>
+  </md-content>
+</div>

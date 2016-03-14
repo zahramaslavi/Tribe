@@ -1,0 +1,59 @@
+<div ng-controller="photosCtrl" ng-init="clickedTopicPhotos()">
+
+  <md-content layout="row" flex class="backgroundColorGray">
+
+
+
+    <div flex layout="column" layout-align="center center">
+      <!-- <div class="divFont" >
+         <h1>Available tribes</h1><br/>
+       </div>
+      -->   
+      <h1>{{clickedTopicDes}}</h1>
+
+      <div flex="50"  ng-repeat="photo in photos">
+        <md-card>
+          <md-card-title>
+            <md-card-title-text>
+              <span class="md-subhead">{{photo.description}}</span>
+            </md-card-title-text>
+          </md-card-title>
+          <md-card-content layout="row" layout-align="space-between">
+            <div class="md-media-xl card-media">
+                <img ng-src="content/img/{{photo.image_url}}" class="dimage md-card-image" alt="Washed Out">
+            </div>
+            <md-card-actions layout="column">
+              <md-button class="md-icon-button" aria-label="Share" ng-click="upvote(photo.id)">
+                <ng-md-icon icon="favorite"
+                            ng-style="{ fill: photo.votes == 0? 'gray' : 'red' }" size="20px"
+                ></ng-md-icon><span>{{photo.votes}}</span>
+              </md-button>
+              <md-button class="md-icon-button" aria-label="Favorite" ng-click="updatePhotoModal($event, photo.description, photo.id, photo.image_url)">
+                <ng-md-icon icon="edit" style="fill: gray" size="24px"
+                ></ng-md-icon>
+              </md-button>
+              <md-button class="md-icon-button" aria-label="Share" ng-click="deleteThisPhoto(photo.id)">
+                <ng-md-icon icon="delete" style="fill: gray" size="24px"
+                ></ng-md-icon>
+              </md-button>
+            </md-card-actions>
+          </md-card-content>
+        </md-card>
+      </div>
+
+
+      <div>
+        <md-button class="md-primary md-hue-1 md-raised md-icon-button md-fab md-fab-bottom-right"
+                   aria-label="More" ng-click="createPhotoModal($event)" md-ink-ripple="#FF0000">
+          <ng-md-icon icon="my_library_add" style="fill: white" size="38px"
+          ></ng-md-icon>
+        </md-button>
+      </div> 
+
+
+      
+
+    </div>
+
+  </md-content>
+</div>
