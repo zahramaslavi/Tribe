@@ -41,8 +41,7 @@
           <div flex layout="row" layout-align="center center">
             <div flex="10"></div>
             <md-input-container flex="80" md-no-float class="md-block">
-              <label>Username</label>
-              <input type="text" name="username" ng-model="username" required ng-minlength="6"
+              <input type="text" name="username" ng-model="username" placeholder="Username" required ng-minlength="6"
                      ng-maxlength="16"><br/>
               <div class="error">
                 <p ng-show="registerForm.username.$dirty && registerForm.username.$error.minlength">Username is too short.</p>
@@ -58,8 +57,7 @@
           <div flex layout="row" layout-align="center center">
             <div flex="10"></div>
             <md-input-container flex="80" md-no-float class="md-block">
-              <label>Email</label>
-              <input type="email" name="email" ng-model="email" required>
+              <input type="email" name="email" ng-model="email" placeholder="Email" required>
               <div class="error">
                 <p ng-show="registerForm.email.$dirty && registerForm.email.$error.email">Please provide your email.</p>
               </div>
@@ -71,8 +69,7 @@
           <div flex layout="row" layout-align="center center">
             <div flex="10"></div>
             <md-input-container flex="80" md-no-float class="md-block">
-              <label>Password</label>
-              <input type="password" name="password" ng-model="password" required ng-minlength="10"
+              <input type="password" name="password" ng-model="password" placeholder="Password" required ng-minlength="10"
                      ng-maxlength="16">
               <div class="error">
                 <p ng-show="registerForm.password.$dirty && registerForm.password.$error.minlength">Password is too short.</p>
