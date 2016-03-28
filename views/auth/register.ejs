@@ -19,10 +19,9 @@
 
 
 
-<div background-image-directive="{{ '/images/tribe16.jpg' }}" layout-padding ng-cloak>
+<div class="fPage" background-image-directive="{{ '/images/background2.jpg' }}" layout-padding ng-cloak>
 
-  <div flex layout="row" layout-align="center center" layout-margin layout-fill
-       style="min-height: 500px">
+  <div flex layout="row" layout-align="center">
 
     <div flex-sm="50" flex-gt-sm="40" flex-gt-md="30" flex-gt-lg="30" class="md-whiteframe-z2">
 
@@ -41,7 +40,7 @@
 
           <div flex layout="row" layout-align="center center">
             <div flex="10"></div>
-            <md-input-container flex="80" class="md-block">
+            <md-input-container flex="80" md-no-float class="md-block">
               <label>Username</label>
               <input type="text" name="username" ng-model="username" required ng-minlength="6"
                      ng-maxlength="16"><br/>
@@ -58,7 +57,7 @@
 
           <div flex layout="row" layout-align="center center">
             <div flex="10"></div>
-            <md-input-container flex="80" class="md-block">
+            <md-input-container flex="80" md-no-float class="md-block">
               <label>Email</label>
               <input type="email" name="email" ng-model="email" required>
               <div class="error">
@@ -71,7 +70,7 @@
 
           <div flex layout="row" layout-align="center center">
             <div flex="10"></div>
-            <md-input-container flex="80" class="md-block">
+            <md-input-container flex="80" md-no-float class="md-block">
               <label>Password</label>
               <input type="password" name="password" ng-model="password" required ng-minlength="10"
                      ng-maxlength="16">

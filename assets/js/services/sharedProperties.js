@@ -14,6 +14,8 @@ sharedProperties.factory('sharedProperties', function($cookies) {
     var topics;
     var clickedTopicId;
     var clickedTopicDes;
+    $cookies.clickedTopicId="";
+    $cookies.clickedTopicDes = "";
     return {
         getUserId: function() {
             userId = $cookies.userId;
@@ -75,20 +77,21 @@ sharedProperties.factory('sharedProperties', function($cookies) {
 
         },
         getClickedTopicId: function() {
-            //clickedTopicId = $cookies.clickedTopicId;
+            clickedTopicId = $cookies.clickedTopicId;
             return clickedTopicId;
         },
         setClickedTopicId: function(value) {
-            //$cookies.clickedTopicId = value;
-            clickedTopicId = value;
+            $cookies.clickedTopicId = value;
+            //clickedTopicId = value;
+
         },
         getClickedTopicDes: function() {
-            //clickedTopicDes = $cookies.clickedTopicDes;
+            clickedTopicDes = $cookies.clickedTopicDes;
             return clickedTopicDes;
         },
         setClickedTopicDes: function(value) {
-           // $cookies.clickedTopicDes = value;
-           clickedTopicDes = value;
+           $cookies.clickedTopicDes = value;
+           //clickedTopicDes = value;
         },
         getPhotos: function() {
             photos = $cookies.photos;

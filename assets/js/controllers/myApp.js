@@ -9,8 +9,24 @@ var app = angular.module('myApp', ['ngMaterial',
                                     'modalServices',
                                     'tribeServices',
                                     'topicServices',
-                                    'photoServices'
+                                    'photoServices', 
+                                    'LocalStorageModule'
                                     ]);
+
+app.directive('backgroundImageDirective', function () {
+    return function (scope, element, attrs) {
+        element.css({
+            //'background-image': 'url(' + attrs.backgroundImageDirective + ')',
+            'background': 'url(' + attrs.backgroundImageDirective + ') no-repeat center center fixed',
+            //'background-repeat': 'no-repeat center center fixed',
+            '-webkit-background-size': 'cover',
+            '-moz-background-size':'cover',
+            '-o-background-size': 'cover',
+            'background-size': 'cover',
+
+        });
+    };
+})
 
 // configure our routes
     app.config(function($routeProvider) {
@@ -28,11 +44,21 @@ var app = angular.module('myApp', ['ngMaterial',
                 controller  : 'photosCtrl'
             });
     });
-app.controller('navbarCtrl', function($scope, $timeout, $interval, sharedProperties) {
+app.controller('navbarCtrl', function($scope,$log, $timeout, $interval, sharedProperties, localStorageService) {
 
   $interval( function(){
         $scope.headerName = sharedProperties.getHeaderName();
         $scope.headerTitle =sharedProperties.getHeaderTitle();
+        $scope.usernameNav=sharedProperties.getUsername();
+        //if(localStorage.getItem("clickedTopicDes")){
+          $scope.topicNav=getFourWord(localStorage.getItem("clickedTopicDes"));
+          //$scope.topicNav=localStorage.getItem("clickedTopicDes");
+        //}
+       
+       // if(localStorage.getItem("clickedTribeName")){
+          $scope.tribeNav=localStorage.getItem("clickedTribeName");
+       // }
+        
     }, 1000);
 
   $scope.setUser= function(userName,id){
@@ -42,13 +68,22 @@ app.controller('navbarCtrl', function($scope, $timeout, $interval, sharedPropert
 
   };
 
+  function getFourWord(str) {
+        if (str.indexOf(' ') === -1)
+            return str;
+        else
+            //return str.substr(0, str.indexOf(' '));
+          return str.substr(0, 30);
+    };
+
+
   });
 
-app.controller('tribesCtrl', function($scope, $timeout, $interval, $mdDialog, $mdToast, tribes, sharedProperties, myModals) {
+app.controller('tribesCtrl', function($scope, $timeout, $interval, $mdDialog, $mdToast, tribes, sharedProperties, myModals, localStorageService) {
 
 
     $interval( function(){
-        $scope.tribes = sharedProperties.getTribes();
+        tribesReload();
     }, 2000);
 
     /*The style for add member Icon*/
@@ -60,7 +95,6 @@ app.controller('tribesCtrl', function($scope, $timeout, $interval, $mdDialog, $m
             tribes.requestTribes().then(function(results){
                 $scope.tribes = results.data;
                 sharedProperties.setTribes(results.data);
-                //$scope.userId = sharedProperties.getUserId();
                 checkMember($scope.tribes);
                 /////Set navbar info
                 $scope.headerName = sharedProperties.getUsername();
@@ -88,17 +122,13 @@ app.controller('tribesCtrl', function($scope, $timeout, $interval, $mdDialog, $m
             var tribeName = $scope.name;
             var tribeDescription = $scope.description;
             var userId = sharedProperties.getUserId();
-           console.log('userId in create:',userId);
             var file = $scope.myFile;
             tribes.createTribe(tribeName, tribeDescription, userId, file).then(function(results){
                 $scope.createdtribe = results.data;
-                console.log('result', $scope.createdtribe);
 
                 $mdDialog.cancel();
                 showSimpleToast("Tribe created");
             });
-
-            $timeout(function(){tribesReload();}, 1000);
 
         }
     ////////////////////End of create tribe
@@ -111,7 +141,6 @@ app.controller('tribesCtrl', function($scope, $timeout, $interval, $mdDialog, $m
     $scope.updateTribeModal = function(ev, name, description, tribeId, image_url) {
         var url = '/modals/updateTribe.html'
         myModals.updateTribeModal(ev, url, name, description, tribeId, image_url);
-        console.log('first url:', image_url);
     };
 
     //Action to update tribe
@@ -120,17 +149,13 @@ app.controller('tribesCtrl', function($scope, $timeout, $interval, $mdDialog, $m
         var tribeId = $scope.modal.tribeId;
         var tribeName = $scope.modal.name;
         var tribeDescription = $scope.modal.description;
-       // var file = $scope.myFile;
 
        tribes.updateTribe(tribeId, tribeName, tribeDescription).then(function(results){
             $scope.updatedtribe = results.data;
-            console.log('result:', results.data);
 
             $mdDialog.cancel();
             showSimpleToast("Tribe updated");
         });
-
-        $timeout(function(){tribesReload();}, 1000);
 
     }
     ////////////////////End of update tribe
@@ -139,11 +164,8 @@ app.controller('tribesCtrl', function($scope, $timeout, $interval, $mdDialog, $m
     $scope.deleteThisTribe=function(tribeId){
         tribes.deleteTribe(tribeId).then(function(results){
             $scope.deletedtribe = results.data;
-            console.log(results);
 
             showSimpleToast("Tribe deleted");
-
-            tribesReload();
         });
     }
     ///////////////////End of delete tribe
@@ -154,11 +176,6 @@ app.controller('tribesCtrl', function($scope, $timeout, $interval, $mdDialog, $m
         console.log('userId in member', tribeId);
         tribes.becomeMember(tribeId).then(function(results){
             $scope.memberData = results.data;
-            console.log('$scope.memberData', results);
-            tribesReload();
-            /*$scope.member = 'true';
-            $scope.memberIdCheck.push($scope.memberData.id);
-            console.log($scope.memberIdCheck);*/
         });
     }
     ///////////////End of become a member
@@ -166,11 +183,9 @@ app.controller('tribesCtrl', function($scope, $timeout, $interval, $mdDialog, $m
 
   //////////////Set clicked tribe so we can have access to it in the tribe controller
   $scope.clickedTribe = function(clickedTribeId, clickedTribeName){
-    sharedProperties.setClickedTribeId(clickedTribeId);
-    sharedProperties.setClickedTribeName(clickedTribeName);
-    console.log("hi",clickedTribeId);
-    console.log("zahraa",clickedTribeName);
-
+  
+    localStorage.setItem("clickedTribeId", clickedTribeId);
+    localStorage.setItem("clickedTribeName", clickedTribeName);
   }
 
   //////////////End of set clicked tribe
@@ -205,9 +220,8 @@ app.controller('tribesCtrl', function($scope, $timeout, $interval, $mdDialog, $m
                 checkMember($scope.tribes);
                 /////Set navbar info
                 $scope.headerName = sharedProperties.getUsername();
-                console.log('$scope.headerName',$scope.headerName);
-                sharedProperties.setHeaderTitle("Tribes");
-                sharedProperties.setHeaderName($scope.headerName);
+                //sharedProperties.setHeaderTitle("Tribes");
+                //sharedProperties.setHeaderName($scope.headerName);
             });
 
         }, 1000);
@@ -224,26 +238,29 @@ app.controller('tribesCtrl', function($scope, $timeout, $interval, $mdDialog, $m
                 }
               }); 
             });
-        console.log('$scope.memberIdCheck', $scope.memberIdCheck);
     }
 
 
 });
 
 
-app.controller('topicsCtrl', function($scope, $timeout, $interval, $mdDialog, $mdToast, sharedProperties, myModals, topics) {
+app.controller('topicsCtrl', function($scope, $timeout, $interval, $mdDialog, $mdToast, sharedProperties, myModals, topics, localStorageService) {
 
   /*Get the clicked tribeId on page load and get all related topics*/
   $scope.clickedTribe = function(){
     $timeout( function(){
-           $scope.clickedTribeId = sharedProperties.getClickedTribeId();
-           $scope.clickedTribeName = sharedProperties.getClickedTribeName();
+          
+           $scope.clickedTribeId = localStorage.getItem("clickedTribeId"); 
+           $scope.clickedTribeName = localStorage.getItem("clickedTribeName");
+
+           sharedProperties.setClickedTribeId($scope.clickedTribeId);
+           sharedProperties.setClickedTribeName($scope.clickedTribeName);
+
            sharedProperties.setHeaderTitle("Topics");
            sharedProperties.setHeaderName($scope.clickedTribeName);
 
             topics.requestTopics($scope.clickedTribeId).then(function(results){
               $scope.topics = results.data.topics;
-              console.log('$scope.topics',results.data);
               sharedProperties.setTopics(results.data.topics);
             });
     }, 1000);
@@ -251,9 +268,8 @@ app.controller('topicsCtrl', function($scope, $timeout, $interval, $mdDialog, $m
 
   /*Get topics every 2 sec so we get all updates including topic-delete and topic-update*/
   $interval( function(){
-    $scope.topics = sharedProperties.getTopics();
-    $scope.clickedTribeId = sharedProperties.getClickedTribeId();
-    $scope.clickedTribeName = sharedProperties.getClickedTribeName();
+    var tribeId = sharedProperties.getClickedTribeId();
+      topicsReload(tribeId);
   }, 2000);
 
 
@@ -272,19 +288,14 @@ app.controller('topicsCtrl', function($scope, $timeout, $interval, $mdDialog, $m
   //Action to create a new topic
   $scope.createNewTopic = function(){
 
-
     var topicDescription = $scope.description;
     var tribeId = sharedProperties.getClickedTribeId();
     topics.createTopic(topicDescription, tribeId).then(function(results){
       $scope.createdTopic = results;
-      console.log('result', $scope.createdTopic);
 
       $mdDialog.cancel();
       showSimpleToast("Topic created");
     });
-
-    $timeout(function(){topicsReload(tribeId);}, 1000);
-
   }
   ////////////////////End of create topic
 
@@ -295,9 +306,7 @@ app.controller('topicsCtrl', function($scope, $timeout, $interval, $mdDialog, $m
   //Get modal to update tribe
   $scope.updateTopicModal = function(ev, description, topicId) {
     var url = '/modals/updateTopic.html';
-    console.log('topicId', topicId);
     myModals.updateTopicModal(ev, url, description, topicId);
-    console.log('first url:', image_url);
   };
 
   //Action to update tribe
@@ -308,16 +317,10 @@ app.controller('topicsCtrl', function($scope, $timeout, $interval, $mdDialog, $m
 
     topics.updateTopic(topicDescription, topicId).then(function(results){
       $scope.updatedtribe = results.data;
-      console.log('result:', results.data);
 
       $mdDialog.cancel();
       showSimpleToast("Topic updated");
     });
-
-    $timeout(function(){
-      var tribeId = sharedProperties.getClickedTribeId();
-      topicsReload(tribeId);
-    }, 1000);
 
   }
   ////////////////////End of update tribe
@@ -327,12 +330,9 @@ app.controller('topicsCtrl', function($scope, $timeout, $interval, $mdDialog, $m
 
     topics.deleteTopic(topicId).then(function(results){
       $scope.deletedtopic = results.data;
-      console.log(results);
-
+     
       showSimpleToast("Topic deleted");
 
-      var tribeId = sharedProperties.getClickedTribeId();
-      topicsReload(tribeId);
     });
   }
   ///////////////////End of delete tribe
@@ -341,8 +341,8 @@ app.controller('topicsCtrl', function($scope, $timeout, $interval, $mdDialog, $m
 
   //////////////Set clicked tribe so we can have access to it in the tribe controller
   $scope.clickedTopic = function(clickedTopicId, clickedTopicDes){
-    sharedProperties.setClickedTopicId(clickedTopicId);
-    sharedProperties.setClickedTopicDes(clickedTopicDes);
+    localStorage.setItem("clickedTopicId", clickedTopicId);
+    localStorage.setItem("clickedTopicDes", clickedTopicDes);
   }
 
   //////////////End of set clicked tribe
@@ -370,13 +370,10 @@ app.controller('topicsCtrl', function($scope, $timeout, $interval, $mdDialog, $m
   function topicsReload(tirbeId){
     $timeout(function(){
       $scope.clickedTribeId = tirbeId;
-     $scope.clickedTribeName = "Zahraa"
-      //$scope.clickedTribeName = sharedProperties.getClickedTribeName();
-     // console.log($scope.clickedTribeId, "name" , $scope.clickedTribeName);
-
+    
+     
       topics.requestTopics($scope.clickedTribeId).then(function(results){
         $scope.topics = results.data.topics;
-        console.log(results.data);
         sharedProperties.setTopics(results.data.topics);
       });
 
@@ -389,17 +386,22 @@ app.controller('topicsCtrl', function($scope, $timeout, $interval, $mdDialog, $m
 
 
 
-app.controller('photosCtrl', function($scope, $timeout, $interval, $mdDialog, $mdToast, sharedProperties, myModals, photos) {
+app.controller('photosCtrl', function($scope, $timeout, $interval, $mdDialog, $mdToast, sharedProperties, myModals, photos, localStorageService) {
 
   /*Get the clicked tribeId on page load and get all related topics*/
   $scope.clickedTopicPhotos = function(){
     $timeout( function(){
-      $scope.clickedTopicId = sharedProperties.getClickedTopicId(); 
-      $scope.clickedTopicDes = sharedProperties.getClickedTopicDes();
+      $scope.clickedTopicId = localStorage.getItem("clickedTopicId");
+      $scope.clickedTopicDes = localStorage.getItem("clickedTopicDes");
+
+      sharedProperties.setClickedTopicId($scope.clickedTopicId);
+      sharedProperties.setClickedTopicDes($scope.clickedTopicDes);
+
+      sharedProperties.setHeaderTitle("Photos");
+      sharedProperties.setHeaderName($scope.clickedTopicDes);
 
       photos.requestPhotos($scope.clickedTopicId).then(function(results){
         $scope.photos = results.data.photos;
-        console.log(results.data);
         sharedProperties.setPhotos($scope.photos);
       });
     }, 1000);
@@ -407,11 +409,12 @@ app.controller('photosCtrl', function($scope, $timeout, $interval, $mdDialog, $m
 
   /*Get Photos every 2 sec so we get all updates including photo-delete and photos-update*/
   $interval( function(){
-    $scope.Photos = sharedProperties.getPhotos();
+    photosReload();
   }, 2000);
 
+  
 
-  ////////////////////Create Photp
+  ////////////////////Create Photo
 
   //Get modal to create photo
   $scope.createPhotoModal = function(ev) {
@@ -428,23 +431,18 @@ app.controller('photosCtrl', function($scope, $timeout, $interval, $mdDialog, $m
 
     var photoDescription = $scope.description;
     var topicId = sharedProperties.getClickedTopicId();
+    
     var ownerId= sharedProperties.getUserId();
     var file = $scope.myFile;
-    console.log(photoDescription);
-    console.log("tribeId in create get",topicId);
+    
     photos.createPhoto(photoDescription, topicId, ownerId, file).then(function(results){
       $scope.createdPhoto = results;
-      console.log('result', $scope.createdPhoto);
 
       $mdDialog.cancel();
       showSimpleToast("Photo created");
-      //photosReload();
+     
     });
 
-    //$timeout(function(){
-      var topicId = sharedProperties.getClickedTopicId(); 
-      photosReload(topicId);
-    //}, 2000);
 
   }
   ////////////////////End of create topic
@@ -456,7 +454,6 @@ app.controller('photosCtrl', function($scope, $timeout, $interval, $mdDialog, $m
   //Get modal to update tribe
   $scope.updatePhotoModal = function(ev, description, photoId, image_url) {
     var url = '/modals/updatePhoto.html';
-    console.log('photoId', photoId);
     myModals.updatePhotoModal(ev, url, description, photoId, image_url);
   
   };
@@ -469,16 +466,14 @@ app.controller('photosCtrl', function($scope, $timeout, $interval, $mdDialog, $m
 
     photos.updatePhoto(photoDescription, photoId).then(function(results){
       $scope.updatedPhoto = results.data;
-      console.log('result:', $scope.updatedPhoto);
-
+     
       $mdDialog.cancel();
-      showSimpleToast("Topic updated");
+      showSimpleToast("Photo updated");
+
+      
     });
 
-   // $timeout(function(){
-      var topicId = sharedProperties.getClickedTopicId(); 
-      photosReload(topicId);
-    //}, 1000);
+    
 
   }
   ////////////////////End of update tribe
@@ -488,12 +483,9 @@ app.controller('photosCtrl', function($scope, $timeout, $interval, $mdDialog, $m
 
     photos.deletePhoto(photoId).then(function(results){
       $scope.deletedPhoto = results.data;
-      console.log($scope.deletedPhoto);
 
       showSimpleToast("Photo deleted");
 
-      var topicId = sharedProperties.getClickedTopicId(); 
-      photosReload(topicId);
     });
   }
   ///////////////////End of delete tribe
@@ -518,16 +510,13 @@ app.controller('photosCtrl', function($scope, $timeout, $interval, $mdDialog, $m
 
 
   ////////////Tribes reload
-  function photosReload(topicId){
+  function photosReload(){
+   
     $timeout(function(){
-      //var topicId = sharedProperties.getClickedTopicId();
-      $scope.clickedTopicDes = sharedProperties.getClickedTopicDes();
-      
+      var topicId = sharedProperties.getClickedTopicId();
       photos.requestPhotos(topicId).then(function(results){
         $scope.photos = results.data.photos;
-        console.log(results.data);
         sharedProperties.setPhotos($scope.photos);
-        console.log('page loaded', $scope.photos);
       });
     }, 1000);
   }
@@ -539,9 +528,6 @@ app.controller('photosCtrl', function($scope, $timeout, $interval, $mdDialog, $m
         photos.upvotePhoto(photoId).then(function(results){
             $scope.upvoteData = results.data;
             console.log('$scope.upvoteData', results);
-
-            var topicId = sharedProperties.getClickedTopicId(); 
-            photosReload(topicId);
         });
     }
 

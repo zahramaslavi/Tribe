@@ -1,30 +1,33 @@
  <div ng-controller="topicsCtrl" ng-init="clickedTribe()">
 
-  <md-content layout="row" flex class="backgroundColorGray">
+  <md-content layout="row" flex class="backgroundColorGray" style="min-height:800px">
 
     <div flex layout="column" layout-align="center center">
 
 
-      <h1>{{clickedTribeName}}</h1><br/>
+     <!--  <h1>{{clickedTribeName}}</h1><br/> -->
 
+     <div class="divFont" >
+         <h1>Available topics</h1>
+       </div>
      
-      <div flex  flex-gt-xs="80" ng-repeat="topic in topics">
+      <div flex  flex-gt-xs="80" ng-repeat="topic in topics" class="myCard">
         <md-card>
           <md-card-title>
             <md-card-title-text>
-             <!-- <a ng-href="#/photos" ng-click="clickedTopic(topic.id,topic.description)"> -->
-              <span class="md-headline">{{topic.description}}</span>
-             <!-- </a> -->
+             <a ng-href="#/photos" ng-click="clickedTopic(topic.id,topic.description)">
+              <span class="md-subhead">{{topic.description}}</span>
+             </a>
             </md-card-title-text>
             <md-card-title-media>
-              <div class="md-media-sm card-media"></div>
+             <!--  <div class="md-media-sm card-media"></div> -->
             </md-card-title-media>
           </md-card-title>
           <md-card-actions layout="row" layout-align="end center">
-            <md-button class="md-icon-button" aria-label="Share" ng-href="#/photos" ng-click="clickedTopic(topic.id,topic.description)">
+            <!-- <md-button class="md-icon-button" aria-label="Share" ng-href="#/photos" ng-click="clickedTopic(topic.id,topic.description)">
               <ng-md-icon icon="login" style="fill: gray" size="24px"
               ></ng-md-icon>
-            </md-button>
+            </md-button> -->
             <md-button class="md-icon-button" aria-label="Favorite" ng-click="updateTopicModal($event, topic.description, topic.id)">
               <ng-md-icon icon="edit" style="fill: gray" size="24px"
               ></ng-md-icon>

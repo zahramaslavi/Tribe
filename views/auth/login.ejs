@@ -1,12 +1,11 @@
 
 
 
-<div background-image-directive="{{ '/images/tribe16.jpg' }}" layout-padding class="form formFont" ng-cloack>
+<div class="fPage" background-image-directive="{{ '/images/background.jpg' }}" layout-padding class="form formFont" ng-cloack>
 
 
 
-  <div flex layout="row" layout-align="center center" layout-margin layout-fill
-       style="min-height: 500px" >
+  <div flex layout="row" layout-align="center" layout-margin>
 
     <div flex-sm="50" flex-gt-sm="40" flex-gt-md="30" flex-gt-lg="30" class="md-whiteframe-14dp">
 
@@ -19,13 +18,13 @@
         <% } %>
 
 
-        <form name="loginForm" role="form" action="/auth/local" method="post" id="loginForm" class="form formFont md-padding" ng-cloak>
+        <form name="loginForm" role="form" action="/auth/local" method="post" id="loginForm" class="form formFont" ng-cloak>
 
           <div flex layout="row" layout-align="center center">
             <div flex="10"></div>
-            <md-input-container flex="80"  class="md-block">
-              <label>Username or Email</label>
-              <input type="text" name="identifier" ng-model="name" required>
+            <md-input-container flex="80"  md-no-float class="md-block">
+              <!--<label>Username or Email</label>-->
+              <input type="text" placeholder="Username or Email" name="identifier" ng-model="name" required>
               <div class="error">
                 <p ng-show="loginForm.identifier.$dirty && loginForm.identifier.$error.required">Username or email is required.</p>
               </div>
@@ -38,9 +37,9 @@
 
           <div flex layout="row" layout-align="center center">
             <div flex="10"></div>
-            <md-input-container flex="80" class="md-block">
-              <label>Password</label>
-              <input type="password" name="password" ng-model="password" required ng-minlength="10"
+            <md-input-container flex="80" md-no-float class="md-block">
+               <!--<label>Password</label>-->
+              <input type="password" name="password" placeholder="Password" ng-model="password" required ng-minlength="10"
                      ng-maxlength="16">
               <div class="error">
                 <p ng-show="loginForm.password.$dirty && loginForm.password.$error.minlength">Password is too short.</p>

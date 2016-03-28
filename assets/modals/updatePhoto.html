@@ -1,8 +1,8 @@
-<md-dialog flex-sm="30" flex-gt-sm="40" flex-gt-md="30" flex-gt-lg="30" aria-label="Add a new photo"  ng-controller="photosCtrl" ng-cloak>
+<md-dialog class="fpage" flex-sm="30" flex-gt-sm="40" flex-gt-md="30" flex-gt-lg="30" aria-label="Add a new photo"  ng-controller="photosCtrl" ng-cloak>
     <form name="updatePhotoForm" id="photo-form" enctype="multipart/form-data" method="post">
         <md-toolbar class="md-primary md-hue-1 md-raised" md-ink-ripple="#FF0000">
             <div class="md-toolbar-tools">
-                <h2>Add a new photo</h2>
+                <h2>Update this photo</h2>
                 <span flex></span>
                 <md-button class="md-icon-button" ng-click="cancel()">
                     <ng-md-icon icon="close" style="fill: white" size="24px"
@@ -16,9 +16,8 @@
 
                 <div flex layout="row" layout-align="center center" style="min-height: 20px">
                     <div flex="10"></div>
-                    <md-input-container flex="80"  class="md-block">
-                        <label>Description</label>
-                        <input type="text" name="description" ng-model="modal.description" required>
+                    <md-input-container flex="80"  md-no-float class="md-block">
+                         <textarea name="description" class="form-control" md-maxlength="150" rows="2" placeholder="Description" ng-model="modal.description" required md-select-on-focus></textarea>
                         <div class="error">
                             <p ng-show="updatePhotoForm.description.$dirty && updatePhotoForm.description.$error.required">Description is required.</p>
                         </div>
@@ -41,7 +40,7 @@
                 <div flex="80"  layout="row" layout-align="center center">
                     <md-button flex layout="row" class="md-primary md-hue-1 md-raised"
                                aria-label="More" md-ink-ripple="#FF0000" ng-click="updatePhoto()">
-                        <ng-md-icon icon="group_add" style="fill: white" size="38px"
+                        <ng-md-icon icon="my_library_add" style="fill: white" size="38px"
                         ></ng-md-icon>
                     </md-button>
                 </div>

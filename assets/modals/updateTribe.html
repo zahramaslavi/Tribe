@@ -15,9 +15,8 @@
 
                 <div flex layout="row" layout-align="center center">
                     <div flex="10"></div>
-                    <md-input-container flex="80"  class="md-block">
-                        <label>Name</label>
-                        <input type="text" name="name" ng-model="modal.name" required>
+                    <md-input-container flex="80" md-no-float class="md-block">
+                        <input type="text" name="name" placeholder="Name" ng-model="modal.name" required>
                         <div class="error">
                             <p ng-show="createTribeForm.name.$dirty && createTribeForm.name.$error.required">Name is required.</p>
                         </div>
@@ -28,9 +27,8 @@
 
                 <div flex layout="row" layout-align="center center" style="min-height: 20px">
                     <div flex="10"></div>
-                    <md-input-container flex="80"  class="md-block">
-                        <label>Description</label>
-                        <input type="text" name="description" ng-model="modal.description" required>
+                    <md-input-container flex="80" md-no-float class="md-block">
+                        <textarea name="description" class="form-control" md-maxlength="150" rows="2" placeholder="Description" ng-model="modal.description" required md-select-on-focus></textarea>
                         <div class="error">
                             <p ng-show="createTribeForm.description.$dirty && createTribeForm.description.$error.required">Description is required.</p>
                         </div>

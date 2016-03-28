@@ -1,17 +1,17 @@
 <div ng-controller="photosCtrl" ng-init="clickedTopicPhotos()">
 
-  <md-content layout="row" flex class="backgroundColorGray">
+  <md-content layout="row" flex class="backgroundColorGray md-body" style="min-height:800px">
 
 
 
     <div flex layout="column" layout-align="center center">
-      <!-- <div class="divFont" >
-         <h1>Available tribes</h1><br/>
+       <div class="divFont" >
+         <h1>Available photos</h1>
        </div>
-      -->   
-      <h1>{{clickedTopicDes}}</h1>
+        
+     <!--  <h1>{{clickedTopicDes}}</h1> -->
 
-      <div flex="50"  ng-repeat="photo in photos">
+      <div flex="50"  ng-repeat="photo in photos" class="myCard">
         <md-card>
           <md-card-title>
             <md-card-title-text>
@@ -24,9 +24,10 @@
             </div>
             <md-card-actions layout="column">
               <md-button class="md-icon-button" aria-label="Share" ng-click="upvote(photo.id)">
+                <div layout="row" >
                 <ng-md-icon icon="favorite"
-                            ng-style="{ fill: photo.votes == 0? 'gray' : 'red' }" size="20px"
-                ></ng-md-icon><span>{{photo.votes}}</span>
+                            ng-style="{ fill: photo.votes == 0? 'gray' : '#e6005c' }" size="20px"
+                ></ng-md-icon><span>{{photo.votes}}</span></div>
               </md-button>
               <md-button class="md-icon-button" aria-label="Favorite" ng-click="updatePhotoModal($event, photo.description, photo.id, photo.image_url)">
                 <ng-md-icon icon="edit" style="fill: gray" size="24px"
@@ -50,10 +51,12 @@
         </md-button>
       </div> 
 
-
-      
-
     </div>
+
 
   </md-content>
 </div>
+
+
+
+

@@ -1,16 +1,78 @@
 
 
 
-    <md-toolbar class="md-primary md-hue-1 md-raised" md-ink-ripple="#FF0000" ng-controller="navbarCtrl" ng-init="setUser('<%= user.username %>','<%= user.id %>')">
+  <!--   <md-toolbar class="md-primary md-hue-1 md-raised" md-ink-ripple="#FF0000" ng-controller="navbarCtrl" ng-init="setUser('<%= user.username %>','<%= user.id %>')">
         <div class="md-toolbar-tools">
-            <div flex layout="row" layout-align="center center" class="headerFont">
+            <div flex layout="row" class="headerFont">
                 <h1 >{{headerTitle}}</h1>
 
             </div>
 
 
-            <h4>{{headerName}}</h4>
-           <!-- <md-button class="md-icon-button" aria-label="More">Logout</md-button>-->
+            
+            	<h4></h4>
+
+           		<div class="dropdown">
+				   <md-button class="md-icon-button dropdown-toggle" aria-label="More"type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"> <ng-md-icon icon="list" style="fill: white" size="28px"
+                        ></ng-md-icon></md-button>
+				  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1"> 
+				    <li><a href="#">{{headerName}}</a></li>
+				    <li><a href="#">Tribes</a></li>
+				    <li><a href="#">Topics</a></li>
+				    <li><a href="#">Photos</a></li>
+				    <li role="separator" class="divider"></li>
+				    <li><a href="#">logout</a></li>
+				  </ul>
+				</div>    
+				        
         </div>
-    </md-toolbar>
+    </md-toolbar> --> 
+
+<div id="top_nav" class = "navbar navbar-default navbar-fixed-top" role="navigation" ng-controller="navbarCtrl" ng-init="setUser('<%= user.username %>','<%= user.id %>')" ng-cloak>
+	    <div class = "container-fluid">
+		   <div class = "navbar-header">
+		     
+
+		   	
+			<button class = "navbar-toggle" data-toggle = "collapse" data-target = ".navHeaderCollapse">
+			    <span class="sr-only">Toggle navigation</span>
+				<span class = "icon-bar"></span>
+				<span class = "icon-bar"></span>
+				<span class = "icon-bar"></span>
+			</button>
+			<ul class = "nav navbar-brand navbar-left">{{headerTitle}}</ul>
+			<ul class = "nav navbar-brand navbar-left"><h5 calss = "btn btn-success btn-xs"></h5></ul>
+		   </div>
+
+			<div class ="collapse navbar-collapse navHeaderCollapse">
+
+	        <ul class = "nav navbar-nav navbar-right" >
+	            <li class = "active dropdown" ng-show="headerTitle=='Photos'|| headerTitle=='Topics'"><a id ='tribe' class= "dropdown-toggle" data-toggle = "dropdown">Tribe<b class = "caret"></b></a>
+			        <ul class = "dropdown-menu">
+		                <li><a id='tribeName'>{{tribeNav}}</a></li>
+		                <li><a href="#/tribes" id='tribes'>Tribes</a></li>
+				    </ul>
+		        </li>
+		        
+			    <li class ="dropdown" ng-show="headerTitle=='Photos'"><a id = 'topic' class = "dropdown-toggle" data-toggle = "dropdown">Topic<b class = "caret"></b></a>
+			        <ul class = "dropdown-menu">
+		                <li><a id='topicName'>{{topicNav}}...</a></li>
+		                <li><a href="#/topics" id='topics'>Topics</a></li>
+				    </ul>
+		        </li>
+		        
+				
+		        <li class ="dropdown"><a id = 'user' class = "dropdown-toggle" data-toggle = "dropdown">User<b class = "caret"></b></a>
+			
+			        <ul class = "dropdown-menu">
+		                <li><a id='username'>{{usernameNav}}</a></li>
+			            <li><a href="logout" id='mandarin'>logout</a></li>
+				    </ul>
+		        </li>
+			   
+		    </ul>
+	        </div>
+		</div>
+	</div>
+ 
 

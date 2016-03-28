@@ -5,11 +5,13 @@
 
 
     <div flex layout="column" layout-align="center center">
-      <!-- <div class="divFont" >
-         <h1>Available tribes</h1><br/>
+
+       <div class="divFont" >
+         <h1>Available tribes</h1>
        </div>
--->
-      <div flex="50"  ng-repeat="tribe in tribes">
+
+
+      <div flex="50"  ng-repeat="tribe in tribes" class="myCard">
         <md-card>
           <md-card-title>
             <md-card-title-text>
@@ -26,7 +28,7 @@
             <md-card-actions layout="column">
               <md-button class="md-icon-button" aria-label="Share" ng-click="becomeMember(tribe.id)">
                 <ng-md-icon icon="person_add"
-                            ng-style="{ fill: memberIdCheck.indexOf(tribe.id) == -1? 'gray' : 'red' }" size="24px"
+                            ng-style="{ fill: memberIdCheck.indexOf(tribe.id) == -1? 'gray' : '#e6005c' }" size="24px"
                 ></ng-md-icon>
               </md-button>
               <md-button class="md-icon-button" aria-label="Favorite" ng-click="updateTribeModal($event, tribe.name, tribe.description, tribe.id, tribe.image_url)">
